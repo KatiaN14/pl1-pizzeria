@@ -60,8 +60,24 @@ string generarIdPedido(String contador) {
     return contador;
 }
 
-Pedido generarPedidoAleatorio(int contador) {
-    
+Pedido generarPedidoAleatorio(int &contadorGlobal) {
+    string tipos[] = {"Margarita", "Pepperoni", "Cuatro Quesos", "Hawaiana", "Barbacoa"};
+    string tamanos[] = {"Familiar", "Mediana", "Individual"};
+    string zonas[] = {"Norte", "Sur", "Centro", "Este", "Oeste"};
+    string estados[] = {"En preparacion", "En horno", "Listo"};
+    bool personalizadas[5] = {false, false, false, false, true};
+
+    contadorGlobal++; // Incrementamos el contador para el siguiente ID
+    Pedido p;
+    p.id_pedido = generarIdPedido(contadorGlobal);
+    p.id_cliente = 100 + calcularSecuenciaAleatoria(900);  // IDs entre 0 y 999
+    p.tipo_pizza = tipos[calcularSecuenciaAleatoria(5)];
+    p.tamano_pizza = tamanos[calcularSecuenciaAleatoria(3)];
+    p.zona_reparto = zonas[calcularSecuenciaAleatoria(5)];
+    p.personalizada = personalizadas[calcularSecuenciaAleatoria(5)];
+    p.estado = estados[calcularSecuenciaAleatoria(3)];
+
+    return p;
 }
 
 /*
