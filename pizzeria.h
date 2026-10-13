@@ -47,3 +47,5 @@ string generarIdPedido(int contador);
 Pedido generarPedidoAleatorio(int contadorGlobal);
 
 #endif PIZZERIA_H
+
+//grupo 10

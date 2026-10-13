@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <ctime>
+#include <iomanip>
 #include "pizzeria.h"
 
 using namespace std;
@@ -49,4 +51,21 @@ bool Cola::esVacia()
     return primero == nullptr;
 }
 
-//prueba
+/*
+string generarIdPedido(int contador) {
+
+}
+
+Pedido generarPedidoAleatorio(int contador) {
+
+}
+arrays pizza estado etc
+
+int calcularSecuenciaAleatoria(int x)
+{
+    int numaleat;
+    numaleat = rand() % x;
+
+    return numaleat;
+}
+ */
