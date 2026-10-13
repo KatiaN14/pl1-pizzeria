@@ -51,14 +51,20 @@ bool Cola::esVacia()
     return primero == nullptr;
 }
 
-/*
-string generarIdPedido(int contador) {
-
+string generarIdPedido(String contador) {
+    string numeroString = contador.substr(1,5);
+    int numero = stoi(numeroString);
+    numero = numero + 1;
+    contador = to_string(numero);
+    contador = 'P' + contador;
+    return contador;
 }
 
 Pedido generarPedidoAleatorio(int contador) {
-
+    
 }
+
+/*
 arrays pizza estado etc
 
 int calcularSecuenciaAleatoria(int x)
