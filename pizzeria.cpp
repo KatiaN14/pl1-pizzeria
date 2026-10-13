@@ -51,6 +51,14 @@ bool Cola::esVacia()
     return primero == nullptr;
 }
 
+int calcularSecuenciaAleatoria(int x)
+{
+    int numaleat;
+    numaleat = rand() % x;
+
+    return numaleat;
+}
+
 string generarIdPedido(String contador) {
     string numeroString = contador.substr(1,5);
     int numero = stoi(numeroString);
