@@ -22,7 +22,7 @@ class Nodo {
         Nodo* siguiente;
         friend class Cola;
     public:
-        Nodo(Pedido p, Nodo* sig = NULL);
+        Nodo(Pedido p, Nodo* sig = nullptr);
     };
 
     typedef Nodo* pNodo;
@@ -37,7 +37,7 @@ class Cola {
         Cola();
         ~Cola();
         bool esVacia();
-        void encolar(Pedido p);
+        void encolar(Pedido);
         void desencolar();
         Pedido valorFrente();
         void mostrarCola();
