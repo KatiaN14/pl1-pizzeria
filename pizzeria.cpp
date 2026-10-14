@@ -15,6 +15,11 @@ Cola::~Cola()
     }
 }
 
+Nodo::Nodo(Pedido p, Nodo* sig) {
+    pedido = p;
+    siguiente = sig;
+}
+
 void Cola::encolar (Pedido p)
 {
     pNodo nuevo;
@@ -59,13 +64,21 @@ int calcularSecuenciaAleatoria(int x)
     return numaleat;
 }
 
-string generarIdPedido(String contador) {
-    string numeroString = contador.substr(1,5);
+/*string generarIdPedido(string contador) {
+    string numeroString = contadorTexto.substr(1,5); //en realida contadorTexto es lo que recibirá, porque el contador no es un int, empieza por una P, pero otra funcion lo esta usando ahora como un int, por ahora se deja asi 
     int numero = stoi(numeroString);
     numero = numero + 1;
     contador = to_string(numero);
     contador = 'P' + contador;
     return contador;
+    
+}*/
+
+//generarIdPedido provisional
+string generarIdPedido(int contador) {
+    string contadorStr = to_string(contador);
+    string numeroString = (contador < 10 ? "P000" : (contador < 100 ? "P00" : "P0")) + contadorStr;
+    return numeroString; 
 }
 
 Pedido generarPedidoAleatorio(int &contadorGlobal) {
@@ -99,3 +112,9 @@ int calcularSecuenciaAleatoria(int x)
     return numaleat;
 }
  */
+
+void mostrarPedidosRecibidos() {
+    cout << "=== RECIBIDOS ===" << endl;
+    cout << "Pedido \t | \t Cliente \t | \t Pizza \t | \t Tamaño \t | \t Zona \t | \t Pers \t | \t Estado" << endl;
+    cout << "--------------------------------------------------------------------------------------------------------------------------------" << endl;
+}

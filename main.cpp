@@ -1,11 +1,14 @@
 #include <iostream>
 #include <iomanip>
 
+#include "pizzeria.h"
+
 using namespace std;
 
 int main() 
 {
     int opcion;
+    int contadorGlobal = 1;
 
     cout << "Bienvenidos a la pizzería, elija una opción:" << endl;
     cout << "Opción" << setw(15) << "Función" << endl;
@@ -18,13 +21,14 @@ int main()
         if(!(cin >> opcion)) { 
             cin.clear(); 
             cin.ignore(1000,'\n'); 
+            opcion = -1;
         }
         switch (opcion) {
             case 1:
-                cout << "opcion 1 elegida" << endl;
+                generarPedidoAleatorio(contadorGlobal);
                 break;
             case 2:
-                cout << "opcion 2 elegida" << endl;
+                mostrarPedidosRecibidos();
                 break;
             case 0:
                 cout << "opcion 0 elegida" << endl;

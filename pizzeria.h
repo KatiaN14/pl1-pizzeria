@@ -44,8 +44,9 @@ class Cola {
     };
 
 string generarIdPedido(int contador);
-Pedido generarPedidoAleatorio(int contadorGlobal);
+Pedido generarPedidoAleatorio(int &contadorGlobal);
+void mostrarPedidosRecibidos();
 
-#endif PIZZERIA_H
+#endif //PIZZERIA_H
 
 //grupo 10
