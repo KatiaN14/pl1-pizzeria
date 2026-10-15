@@ -6,6 +6,8 @@
 
 using namespace std;
 
+const int PROB_PERSONALIZACION = 20;
+
 Cola::Cola() : primero(nullptr), ultimo(nullptr) {}
 Cola::~Cola()
 {
@@ -64,21 +66,15 @@ int calcularSecuenciaAleatoria(int x)
     return numaleat;
 }
 
-/*string generarIdPedido(string contador) {
-    string numeroString = contadorTexto.substr(1,5); //en realida contadorTexto es lo que recibirá, porque el contador no es un int, empieza por una P, pero otra funcion lo esta usando ahora como un int, por ahora se deja asi 
-    int numero = stoi(numeroString);
-    numero = numero + 1;
-    contador = to_string(numero);
-    contador = 'P' + contador;
-    return contador;
-    
-}*/
-
-//generarIdPedido provisional
 string generarIdPedido(int contador) {
-    string contadorStr = to_string(contador);
-    string numeroString = (contador < 10 ? "P000" : (contador < 100 ? "P00" : "P0")) + contadorStr;
-    return numeroString; 
+    string ceros = "000";
+    int copia = contador;
+    while(copia >= 10) {
+        ceros.pop_back();
+        copia /= 10;
+    }
+    string id = "P1" + ceros + to_string(contador);
+    return id; 
 }
 
 Pedido generarPedidoAleatorio(int &contadorGlobal) {
@@ -86,35 +82,46 @@ Pedido generarPedidoAleatorio(int &contadorGlobal) {
     string tamanos[] = {"Familiar", "Mediana", "Individual"};
     string zonas[] = {"Norte", "Sur", "Centro", "Este", "Oeste"};
     string estados[] = {"En preparacion", "En horno", "Listo"};
-    bool personalizadas[5] = {false, false, false, false, true};
 
     contadorGlobal++; // Incrementamos el contador para el siguiente ID
+
     Pedido p;
     p.id_pedido = generarIdPedido(contadorGlobal);
-    p.id_cliente = 100 + calcularSecuenciaAleatoria(900);  // IDs entre 0 y 999
+    p.id_cliente = calcularSecuenciaAleatoria(999);  // IDs entre 0 y 999
     p.tipo_pizza = tipos[calcularSecuenciaAleatoria(5)];
     p.tamano_pizza = tamanos[calcularSecuenciaAleatoria(3)];
     p.zona_reparto = zonas[calcularSecuenciaAleatoria(5)];
-    p.personalizada = personalizadas[calcularSecuenciaAleatoria(5)];
-    p.estado = estados[calcularSecuenciaAleatoria(3)];
+    p.personalizada = (calcularSecuenciaAleatoria(100) < PROB_PERSONALIZACION);
+    p.estado = "Recibido"; //estados[calcularSecuenciaAleatoria(3)]; en la PL1 el estado es por defecto "recibido"
 
     return p;
 }
 
-/*
-arrays pizza estado etc
-
-int calcularSecuenciaAleatoria(int x)
-{
-    int numaleat;
-    numaleat = rand() % x;
-
-    return numaleat;
-}
- */
-
-void mostrarPedidosRecibidos() {
+void Cola::mostrarCola() {
+    if (esVacia()) {
+        cout << "La cola de pedidos está vacía." << endl;
+        return;
+    }
     cout << "=== RECIBIDOS ===" << endl;
-    cout << "Pedido \t | \t Cliente \t | \t Pizza \t | \t Tamaño \t | \t Zona \t | \t Pers \t | \t Estado" << endl;
-    cout << "--------------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "Pedido   |  Cliente  |       Pizza      |    Tamaño    |   Zona   |   Pers  |       Estado" << endl;
+    cout << "---------------------------------------------------------------------------------------------------" << endl;
+
+    pNodo aux = primero;
+
+    while (aux != nullptr) {
+        string personalizacion = "No";
+        if(aux->pedido.personalizada) {
+            personalizacion = "Si";
+        }
+
+        cout << setw(7) << aux->pedido.id_pedido << setw(3) << "|"
+            << setw(9) << aux->pedido.id_cliente << setw(3) << "|"
+            << setw(16) << aux->pedido.tipo_pizza << setw(3) << "|"
+            << setw(12) << aux->pedido.tamano_pizza << setw(3) << "|"
+            << setw(8) << aux->pedido.zona_reparto << setw(3) << "|"
+            << setw(7) << personalizacion << setw(3) << "|"
+            << setw(15) << aux->pedido.estado << endl;
+        
+        aux = aux->siguiente;
+    }
 }
