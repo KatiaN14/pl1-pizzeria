@@ -8,7 +8,7 @@ struct Pedido {
     string id_pedido;
     int id_cliente;
     string tipo_pizza;
-    string tamano_pizza;
+    string tamano;
     string zona_reparto;
     bool personalizada;
     string estado;
@@ -17,35 +17,33 @@ struct Pedido {
 class Cola;
 
 class Nodo {
-    private:
-        Pedido pedido;
-        Nodo* siguiente;
-        friend class Cola;
-    public:
-        Nodo(Pedido p, Nodo* sig = nullptr);
-    };
+private:
+    Pedido pedido;
+    Nodo* siguiente;
+    friend class Cola;
+public:
+    Nodo(Pedido p, Nodo* sig = nullptr);
+};
 
-    typedef Nodo* pNodo;
+typedef Nodo* pNodo;
 
 class Cola {
 
-    private:
-        pNodo primero;
-        pNodo ultimo;
+private:
+    pNodo primero;
+    pNodo ultimo;
 
-    public:
-        Cola();
-        ~Cola();
-        bool esVacia();
-        void encolar(Pedido);
-        void desencolar();
-        Pedido valorFrente();
-        void mostrarCola();
-    };
+public:
+    Cola();
+    ~Cola();
+    bool esVacia();
+    void encolar(Pedido);
+    void desencolar();
+    Pedido valorFrente();
+    void mostrarCola();
+};
 
 string generarIdPedido(int contador);
-Pedido generarPedidoAleatorio(int contadorGlobal);
+Pedido generarPedidoAleatorio(int &contadorGlobal);
 
-#endif PIZZERIA_H
-
-//grupo 10
+#endif //PIZZERIA_H

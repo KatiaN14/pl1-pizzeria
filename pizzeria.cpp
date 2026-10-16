@@ -6,6 +6,11 @@
 
 using namespace std;
 
+#define PROB_PERSONALIZACION 20
+/*
+ * He puesto PROB_PERSONALIZACION como lo pone en el doc de la sesión 1 para seguir la praxis del profe
+ */
+
 Cola::Cola() : primero(nullptr), ultimo(nullptr) {}
 Cola::~Cola()
 {
@@ -13,6 +18,11 @@ Cola::~Cola()
     {
         desencolar();
     }
+}
+
+Nodo::Nodo(Pedido p, Nodo* sig) {
+    pedido = p;
+    siguiente = sig;
 }
 
 void Cola::encolar (Pedido p)
@@ -59,43 +69,64 @@ int calcularSecuenciaAleatoria(int x)
     return numaleat;
 }
 
-string generarIdPedido(String contador) {
-    string numeroString = contador.substr(1,5);
-    int numero = stoi(numeroString);
-    numero = numero + 1;
-    contador = to_string(numero);
-    contador = 'P' + contador;
-    return contador;
+string generarIdPedido(int contador) {
+    string id = "P" + to_string(10000 + contador);
+    return id;
 }
 
 Pedido generarPedidoAleatorio(int &contadorGlobal) {
-    string tipos[] = {"Margarita", "Pepperoni", "Cuatro Quesos", "Hawaiana", "Barbacoa"};
-    string tamanos[] = {"Familiar", "Mediana", "Individual"};
-    string zonas[] = {"Norte", "Sur", "Centro", "Este", "Oeste"};
-    string estados[] = {"En preparacion", "En horno", "Listo"};
-    bool personalizadas[5] = {false, false, false, false, true};
+    string tipos[] = {"Margarita", "Barbacoa", "Vegetal", "Cuatro Quesos", "Hawaiana", "Romana"};
+    string tamanos[] = {"Mediana", "Grande"};
+    string zonas[] = {"Norte", "Sur", "Este", "Oeste"};
 
-    contadorGlobal++; // Incrementamos el contador para el siguiente ID
+    contadorGlobal ++;
+
     Pedido p;
     p.id_pedido = generarIdPedido(contadorGlobal);
-    p.id_cliente = 100 + calcularSecuenciaAleatoria(900);  // IDs entre 0 y 999
-    p.tipo_pizza = tipos[calcularSecuenciaAleatoria(5)];
-    p.tamano_pizza = tamanos[calcularSecuenciaAleatoria(3)];
-    p.zona_reparto = zonas[calcularSecuenciaAleatoria(5)];
-    p.personalizada = personalizadas[calcularSecuenciaAleatoria(5)];
-    p.estado = estados[calcularSecuenciaAleatoria(3)];
+    p.id_cliente = 100 + calcularSecuenciaAleatoria(900);  // IDs entre 100 y 999
+    p.tipo_pizza = tipos[calcularSecuenciaAleatoria(6)];
+    p.tamano = tamanos[calcularSecuenciaAleatoria(2)];
+    p.zona_reparto = zonas[calcularSecuenciaAleatoria(4)];
+    p.personalizada = (calcularSecuenciaAleatoria(100) < PROB_PERSONALIZACION);
+    p.estado = "Recibido"; //estados[calcularSecuenciaAleatoria(3)]; en la PL1 el estado es por defecto "recibido"
 
     return p;
 }
 
-/*
-arrays pizza estado etc
+void Cola::mostrarCola() {
+    if (esVacia()) {
+        cout << "La cola de pedidos está vacía." << endl;
+        return;
+    }
+    cout << "=== RECIBIDOS ===" << endl;
+    cout << left << setw(10) << "Pedido"
+         << setw(10) << "Cliente"
+         << setw(15) << "Pizza"
+         << setw(10) << "Tamano"
+         << setw(10) << "Zona"
+         << setw(8)  << "Pers"
+         << setw(15) << "Estado" << endl;
+    cout << setfill('-') << setw(86) << "-" << setfill(' ') << endl;
+    /*
+     * He implementado código que he visto en geeksforgeeks que parece más limpio para
+     * tener una cabecera con una alineación a la izquierda y anchos fijos con set width
+     */
+    pNodo aux = primero;
 
-int calcularSecuenciaAleatoria(int x)
-{
-    int numaleat;
-    numaleat = rand() % x;
+    while (aux != nullptr) {
+        string personalizacion = "No";
+        if(aux->pedido.personalizada) {
+            personalizacion = "Si";
+        }
 
-    return numaleat;
+        cout << setw(7) << aux->pedido.id_pedido << setw(3) << "|"
+            << setw(9) << aux->pedido.id_cliente << setw(3) << "|"
+            << setw(16) << aux->pedido.tipo_pizza << setw(3) << "|"
+            << setw(12) << aux->pedido.tamano << setw(3) << "|"
+            << setw(8) << aux->pedido.zona_reparto << setw(3) << "|"
+            << setw(7) << personalizacion << setw(3) << "|"
+            << setw(15) << aux->pedido.estado << endl;
+
+        aux = aux->siguiente;
+    }
 }
- */
