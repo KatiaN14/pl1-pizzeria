@@ -56,4 +56,4 @@ public:
 string generarIdPedido(int contador);
 Pedido generarPedidoAleatorio(int &contadorGlobal);
 
-#endif PIZZERIA2_H
+#endif //PIZZERIA2_H
