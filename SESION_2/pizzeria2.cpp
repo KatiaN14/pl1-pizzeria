@@ -8,6 +8,7 @@
 using namespace std;
 
 #define PROB_PERSONALIZACION 20
+#define N_PEDIDOS_PASO 10
 
 Cola::Cola() : primero(nullptr), ultimo(nullptr) {}
 Cola::~Cola()
@@ -66,6 +67,8 @@ int calcularSecuenciaAleatoria(int x) {
  * He cambiado la función a una más sencilla e igual de funcional con complejidad O(1)
  * porque es una mejor praxis, borrando lineas de código innecesarias.
  */
+
+//pero por ejemplo el pedido numero 150 tendra Id P10000150 en vez de P100150...
 string generarIdPedido(int contador) {
     string id = "P" + to_string(10000 + contador);
     return id;
@@ -85,6 +88,7 @@ Pedido generarPedidoAleatorio(int &contadorGlobal) {
     p.tamano = tamanos[calcularSecuenciaAleatoria(2)];
     p.zona_reparto = zonas[calcularSecuenciaAleatoria(ZONAS)];
     p.personalizada = (calcularSecuenciaAleatoria(100) < PROB_PERSONALIZACION);
+    p.estado = "Recibido";
 
     return p;
 }
@@ -119,9 +123,63 @@ void Cola::mostrarCola(string nombreCola) {
              << setw(15) << actual->pedido.tipo_pizza
              << setw(10) << actual->pedido.tamano
              << setw(10) << actual->pedido.zona_reparto
-             << setw(8)  << (actual->pedido.personalizada ? "Si" : "No")
-             << setw(15) << actual->pedido.estado << endl;
+             << setw(8)  << (actual->pedido.personalizada ? "Si" : "No"); //esta linea estaba en geekforgeek o es de IA?
         actual = actual->siguiente;
     }
     cout << endl;
+}
+
+int Cola::contarElementos() {
+    int contador = 0;
+    pNodo aux = primero;
+    while(aux != nullptr) {
+        contador++;
+        aux = aux -> siguiente;
+    }
+    return contador;
+}
+
+void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Cola &expedicionNorte, Cola &expedicionSur, Cola &expedicionEste, Cola &expedicionOeste) {
+    int pasosCocina = cocina.contarElementos();
+    if (pasosCocina > N_PEDIDOS_PASO) {
+        pasosCocina = N_PEDIDOS_PASO;
+    }
+    for(int i = 0; i < pasosCocina; i++) {
+        Pedido p = cocina.valorFrente();
+        cocina.desencolar();
+        if (p.zona_reparto == "Norte") {
+            expedicionNorte.encolar(p);
+        } else if (p.zona_reparto == "Sur") {
+            expedicionSur.encolar(p);
+        } else if (p.zona_reparto == "Este") {
+            expedicionEste.encolar(p);
+        } else {
+            expedicionOeste.encolar(p);
+        }
+    }
+    
+    int pasosEspecial = preparacionEspecial.contarElementos();
+    if (pasosEspecial > N_PEDIDOS_PASO) {
+        pasosEspecial = N_PEDIDOS_PASO;
+    }
+    for (int i = 0; i < pasosEspecial; i++) {
+        Pedido p = preparacionEspecial.valorFrente();
+        preparacionEspecial.desencolar();
+        cocina.encolar(p);
+    }
+    
+    int pasosRecibidos = recibidos.contarElementos();
+    if(pasosRecibidos > N_PEDIDOS_PASO) {
+        pasosRecibidos = N_PEDIDOS_PASO;
+    }
+
+    for (int i = 0; i < pasosRecibidos; i++) {
+        Pedido p = recibidos.valorFrente();
+        recibidos.desencolar();
+        if(p.personalizada) {
+            preparacionEspecial.encolar(p);
+        }else{
+            cocina.encolar(p);
+        }
+    }
 }
