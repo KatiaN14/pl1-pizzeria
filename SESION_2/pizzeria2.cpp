@@ -124,6 +124,14 @@ void Cola::mostrarCola(string nombreCola) {
              << setw(10) << actual->pedido.tamano
              << setw(10) << actual->pedido.zona_reparto
              << setw(8)  << (actual->pedido.personalizada ? "Si" : "No"); //esta linea estaba en geekforgeek o es de IA?
+        //lo del ternary lo vi en reddit pero vaya si no, lo podemos poner así antes del cout
+        /*
+         *string textoPers = "No";
+         *if (actual->pedido.personalizada) {
+         *  textoPers = "Si";
+         *}
+         * Y luego en vez de "pedido.personalizada" ponemos "textoPers" y ya
+         */
         actual = actual->siguiente;
     }
     cout << endl;
