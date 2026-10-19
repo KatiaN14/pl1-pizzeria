@@ -77,12 +77,29 @@ int main()
                     cin.ignore(1000,'\n');
                     opcion2 = -1;
                 }
-                //añadir un switch que enseña cola
+                switch(opcion2) {
+                    case 1:
+                        recibidos.mostrarCola("Recibidos");
+                    case 2:
+                        preparacionEspecial.mostrarCola("Preparación especial");
+                    case 3:
+                        cocina.mostrarCola("Cocina");
+                    case 4:
+                        expedicionNorte.mostrarCola("Expedición Norte");
+                    case 5:
+                        expedicionSur.mostrarCola("Expedición Sur");
+                    case 6:
+                        expedicionEste.mostrarCola("Expedición Este");
+                    case 7:
+                        expedicionOeste.mostrarCola("Expedición Oeste");
+                    default:
+                        cout << "Entrada inválida, introduzca una opción válida (1-7)" << endl;
+                }
             case 0:
                 cout << "Hasta pronto!" << endl;
                 break;
             default:
-                cout << "Entrada inválida, introduzca una opción válida (1, 2 o 0)" << endl;
+                cout << "Entrada inválida, introduzca una opción válida (1, 2, 3 o 0)" << endl;
         }
     } while (opcion != 0);
 
