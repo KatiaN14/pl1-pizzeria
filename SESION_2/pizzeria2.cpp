@@ -93,6 +93,7 @@ Pedido generarPedidoAleatorio(int &contadorGlobal) {
     return p;
 }
 
+/*
 void Cola::mostrarCola(string nombreCola) {
     if (esVacia()) {
         cout << "\n[Aviso] La cola " << nombreCola << " esta vacia.\n" << endl;
@@ -101,9 +102,7 @@ void Cola::mostrarCola(string nombreCola) {
 
     pNodo actual = primero;
     cout << "\n=== " << nombreCola << " ===" << endl;
-    /*
-     * Aquí el cambio que he hecho es poner en vez de recibidos, el estado en el que esté en ese momento
-     */
+    //Aquí el cambio que he hecho es poner en vez de recibidos, el estado en el que esté en ese momento
     cout << left << setw(10) << "Pedido"
          << setw(10) << "Cliente"
          << setw(15) << "Pizza"
@@ -112,10 +111,9 @@ void Cola::mostrarCola(string nombreCola) {
          << setw(8)  << "Pers"
          << setw(15) << "Estado" << endl;
     cout << setfill('-') << setw(86) << "-" << setfill(' ') << endl;
-    /*
-     * He implementado código que he visto en geeksforgeeks que parece más limpio para
-     * tener una cabecera con una alineación a la izquierda y anchos fijos con set width
-     */
+    //He implementado código que he visto en geeksforgeeks que parece más limpio para
+    //tener una cabecera con una alineación a la izquierda y anchos fijos con set width
+     
 
     while (actual != nullptr) {
         cout << left << setw(10) << actual->pedido.id_pedido
@@ -125,17 +123,43 @@ void Cola::mostrarCola(string nombreCola) {
              << setw(10) << actual->pedido.zona_reparto
              << setw(8)  << (actual->pedido.personalizada ? "Si" : "No"); //esta linea estaba en geekforgeek o es de IA?
         //lo del ternary lo vi en reddit pero vaya si no, lo podemos poner así antes del cout
-        /*
-         *string textoPers = "No";
-         *if (actual->pedido.personalizada) {
-         *  textoPers = "Si";
-         *}
-         * Y luego en vez de "pedido.personalizada" ponemos "textoPers" y ya
-         */
+        
+        //string textoPers = "No";
+        //if (actual->pedido.personalizada) {
+        //  textoPers = "Si";
+        //}
+        // Y luego en vez de "pedido.personalizada" ponemos "textoPers" y ya
         actual = actual->siguiente;
     }
     cout << endl;
+}*/
+
+void Cola::mostrarCola(string nombreCola) {
+    if (esVacia()) {
+        cout << "\n[Aviso] La cola " << nombreCola << " esta vacia.\n" << endl;
+        return;
+    }
+
+    cout << "\n=== " << nombreCola << " ===" << endl;
+    cout << "Pedido   |  Cliente  |       Pizza      |    Tamaño    |   Zona   |   Pers  |       Estado" << endl;
+    cout << "---------------------------------------------------------------------------------------------------" << endl;
+
+    pNodo aux = primero;
+
+    while (aux != nullptr) {
+        cout << setw(7) << aux->pedido.id_pedido << setw(3) << "|"
+            << setw(9) << aux->pedido.id_cliente << setw(3) << "|"
+            << setw(16) << aux->pedido.tipo_pizza << setw(3) << "|"
+            << setw(12) << aux->pedido.tamano << setw(3) << "|"
+            << setw(8) << aux->pedido.zona_reparto << setw(3) << "|"
+            << setw(7) << (aux->pedido.personalizada ? "Si" : "No") << setw(3) << "|"
+            << setw(15) << aux->pedido.estado << endl;
+        
+        aux = aux->siguiente;
+    }
 }
+
+
 
 int Cola::contarElementos() {
     int contador = 0;
@@ -191,3 +215,5 @@ void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Col
         }
     }
 }
+
+
