@@ -26,7 +26,7 @@ Nodo_Cola::Nodo(Pedido p, Nodo_Cola *sig) {
 
 void Cola::encolar (Pedido p)
 {
-    pNodo nuevo;
+    pNodo_Cola nuevo;
     nuevo = new Nodo (p);
     if (ultimo != nullptr) ultimo->siguiente = nuevo;
     ultimo = nuevo;
@@ -36,7 +36,7 @@ void Cola::encolar (Pedido p)
 void Cola::desencolar()
 {
     if (primero == nullptr) return;
-    pNodo aux;
+    pNodo_Cola aux;
     aux = primero;
     primero = primero->siguiente;
     delete aux;
@@ -57,20 +57,21 @@ bool Cola::esVacia()
 }
 
 Pila::Pila() : cima(nullptr) {}
-
 Pila::~Pila() {
-    while (!esVacia()) {
+
+    while (!esVacia())
+    {
         desapilar();
     }
 }
 
-void Pila::apilar(int v) {
+void Pila::apilar(Pedido p) {
     cima = new Nodo(v, cima);
 }
 
 void Pila::desapilar() {
     if (esVacia()) return;
-    pNodo aux = cima;
+    pNodo_Pila aux = cima;
     cima = cima->siguiente;
     delete aux;
 }
@@ -98,7 +99,6 @@ int calcularSecuenciaAleatoria(int x) {
  * porque es una mejor praxis, borrando lineas de código innecesarias.
  */
 
-//pero por ejemplo el pedido numero 150 tendra Id P10000150 en vez de P100150...
 string generarIdPedido(int contador) {
     string id = "P" + to_string(10000 + contador);
     return id;
