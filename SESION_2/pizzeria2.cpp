@@ -93,50 +93,6 @@ Pedido generarPedidoAleatorio(int &contadorGlobal) {
     return p;
 }
 
-/*
-void Cola::mostrarCola(string nombreCola) {
-    if (esVacia()) {
-        cout << "\n[Aviso] La cola " << nombreCola << " esta vacia.\n" << endl;
-        return;
-    }
-
-    pNodo actual = primero;
-    cout << "\n=== " << nombreCola << " ===" << endl;
-    //Aquí el cambio que he hecho es poner en vez de recibidos, el estado en el que esté en ese momento
-    cout << left << setw(10) << "Pedido"
-         << setw(10) << "Cliente"
-         << setw(15) << "Pizza"
-         << setw(10) << "Tamano"
-         << setw(10) << "Zona"
-         << setw(8)  << "Pers"
-         << setw(15) << "Estado" << endl;
-    cout << setfill('-') << setw(86) << "-" << setfill(' ') << endl;
-    //He implementado código que he visto en geeksforgeeks que parece más limpio para
-    //tener una cabecera con una alineación a la izquierda y anchos fijos con set width
-
-
-    while (actual != nullptr) {
-        cout << left << setw(10) << actual->pedido.id_pedido
-             << setw(10) << actual->pedido.id_cliente
-             << setw(15) << actual->pedido.tipo_pizza
-             << setw(10) << actual->pedido.tamano
-             << setw(10) << actual->pedido.zona_reparto
-             << setw(8)  << (actual->pedido.personalizada ? "Si" : "No"); //esta linea estaba en geekforgeek o es de IA?
-        //lo del ternary lo vi en reddit pero vaya si no, lo podemos poner así antes del cout
-
-        //string textoPers = "No";
-        //if (actual->pedido.personalizada) {
-        //  textoPers = "Si";
-        //}
-        // Y luego en vez de "pedido.personalizada" ponemos "textoPers" y ya
-        actual = actual->siguiente;
-    }
-    cout << endl;
-}
-*/
-
-
-
 void Cola::mostrarCola(string nombreCola) {
     if (esVacia()) {
         cout << "\n[Aviso] La cola " << nombreCola << " esta vacia.\n" << endl;
