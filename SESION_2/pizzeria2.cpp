@@ -132,7 +132,10 @@ void Cola::mostrarCola(string nombreCola) {
         actual = actual->siguiente;
     }
     cout << endl;
-}*/
+}
+*/
+
+
 
 void Cola::mostrarCola(string nombreCola) {
     if (esVacia()) {
@@ -158,6 +161,7 @@ void Cola::mostrarCola(string nombreCola) {
         aux = aux->siguiente;
     }
 }
+
 
 
 

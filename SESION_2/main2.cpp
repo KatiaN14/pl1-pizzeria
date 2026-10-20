@@ -70,6 +70,7 @@ int main()
                 cout << setw(3) << "5" << "\t" << "Expedición Sur" << endl;
                 cout << setw(3) << "6" << "\t" << "Expedición Este" << endl;
                 cout << setw(3) << "7" << "\t" << "Expedición Oeste" << endl;
+                cout << setw(3) << "8" << "\t" << "Todas las colas" << endl;
                 cout << "Opción: " << endl;
                 if(!(cin >> opcion2)) {
                     cin.clear();
@@ -96,6 +97,15 @@ int main()
                         expedicionEste.mostrarCola("Expedición Este");
                         break;
                     case 7:
+                        expedicionOeste.mostrarCola("Expedición Oeste");
+                        break;
+                    case 8:
+                        recibidos.mostrarCola("Recibidos");
+                        preparacionEspecial.mostrarCola("Preparación especial");
+                        cocina.mostrarCola("Cocina");
+                        expedicionNorte.mostrarCola("Expedición Norte");
+                        expedicionSur.mostrarCola("Expedición Sur");
+                        expedicionEste.mostrarCola("Expedición Este");
                         expedicionOeste.mostrarCola("Expedición Oeste");
                         break;
                     default:
