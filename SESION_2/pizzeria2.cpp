@@ -8,6 +8,7 @@
 using namespace std;
 
 #define PROB_PERSONALIZACION 20
+#define N_PEDIDOS_PASO 10
 
 Cola::Cola() : primero(nullptr), ultimo(nullptr) {}
 Cola::~Cola()
@@ -66,6 +67,8 @@ int calcularSecuenciaAleatoria(int x) {
  * He cambiado la función a una más sencilla e igual de funcional con complejidad O(1)
  * porque es una mejor praxis, borrando lineas de código innecesarias.
  */
+
+//pero por ejemplo el pedido numero 150 tendra Id P10000150 en vez de P100150...
 string generarIdPedido(int contador) {
     string id = "P" + to_string(10000 + contador);
     return id;
@@ -85,10 +88,12 @@ Pedido generarPedidoAleatorio(int &contadorGlobal) {
     p.tamano = tamanos[calcularSecuenciaAleatoria(2)];
     p.zona_reparto = zonas[calcularSecuenciaAleatoria(ZONAS)];
     p.personalizada = (calcularSecuenciaAleatoria(100) < PROB_PERSONALIZACION);
+    p.estado = "Recibido";
 
     return p;
 }
 
+/*
 void Cola::mostrarCola(string nombreCola) {
     if (esVacia()) {
         cout << "\n[Aviso] La cola " << nombreCola << " esta vacia.\n" << endl;
@@ -97,9 +102,7 @@ void Cola::mostrarCola(string nombreCola) {
 
     pNodo actual = primero;
     cout << "\n=== " << nombreCola << " ===" << endl;
-    /*
-     * Aquí el cambio que he hecho es poner en vez de recibidos, el estado en el que esté en ese momento
-     */
+    //Aquí el cambio que he hecho es poner en vez de recibidos, el estado en el que esté en ese momento
     cout << left << setw(10) << "Pedido"
          << setw(10) << "Cliente"
          << setw(15) << "Pizza"
@@ -108,10 +111,9 @@ void Cola::mostrarCola(string nombreCola) {
          << setw(8)  << "Pers"
          << setw(15) << "Estado" << endl;
     cout << setfill('-') << setw(86) << "-" << setfill(' ') << endl;
-    /*
-     * He implementado código que he visto en geeksforgeeks que parece más limpio para
-     * tener una cabecera con una alineación a la izquierda y anchos fijos con set width
-     */
+    //He implementado código que he visto en geeksforgeeks que parece más limpio para
+    //tener una cabecera con una alineación a la izquierda y anchos fijos con set width
+
 
     while (actual != nullptr) {
         cout << left << setw(10) << actual->pedido.id_pedido
@@ -119,9 +121,101 @@ void Cola::mostrarCola(string nombreCola) {
              << setw(15) << actual->pedido.tipo_pizza
              << setw(10) << actual->pedido.tamano
              << setw(10) << actual->pedido.zona_reparto
-             << setw(8)  << (actual->pedido.personalizada ? "Si" : "No")
-             << setw(15) << actual->pedido.estado << endl;
+             << setw(8)  << (actual->pedido.personalizada ? "Si" : "No"); //esta linea estaba en geekforgeek o es de IA?
+        //lo del ternary lo vi en reddit pero vaya si no, lo podemos poner así antes del cout
+
+        //string textoPers = "No";
+        //if (actual->pedido.personalizada) {
+        //  textoPers = "Si";
+        //}
+        // Y luego en vez de "pedido.personalizada" ponemos "textoPers" y ya
         actual = actual->siguiente;
     }
     cout << endl;
+}
+*/
+
+
+
+void Cola::mostrarCola(string nombreCola) {
+    if (esVacia()) {
+        cout << "\n[Aviso] La cola " << nombreCola << " esta vacia.\n" << endl;
+        return;
+    }
+
+    cout << "\n=== " << nombreCola << " ===" << endl;
+    cout << "Pedido   |  Cliente  |       Pizza      |    Tamaño    |   Zona   |   Pers  |       Estado" << endl;
+    cout << "---------------------------------------------------------------------------------------------------" << endl;
+
+    pNodo aux = primero;
+
+    while (aux != nullptr) {
+        cout << setw(7) << aux->pedido.id_pedido << setw(3) << "|"
+            << setw(9) << aux->pedido.id_cliente << setw(3) << "|"
+            << setw(16) << aux->pedido.tipo_pizza << setw(3) << "|"
+            << setw(12) << aux->pedido.tamano << setw(3) << "|"
+            << setw(8) << aux->pedido.zona_reparto << setw(3) << "|"
+            << setw(7) << (aux->pedido.personalizada ? "Si" : "No") << setw(3) << "|"
+            << setw(15) << aux->pedido.estado << endl;
+
+        aux = aux->siguiente;
+    }
+}
+
+
+
+
+int Cola::contarElementos() {
+    int contador = 0;
+    pNodo aux = primero;
+    while(aux != nullptr) {
+        contador++;
+        aux = aux -> siguiente;
+    }
+    return contador;
+}
+
+void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Cola &expedicionNorte, Cola &expedicionSur, Cola &expedicionEste, Cola &expedicionOeste) {
+    int pasosCocina = cocina.contarElementos();
+    if (pasosCocina > N_PEDIDOS_PASO) {
+        pasosCocina = N_PEDIDOS_PASO;
+    }
+    for(int i = 0; i < pasosCocina; i++) {
+        Pedido p = cocina.valorFrente();
+        cocina.desencolar();
+        if (p.zona_reparto == "Norte") {
+            expedicionNorte.encolar(p);
+        } else if (p.zona_reparto == "Sur") {
+            expedicionSur.encolar(p);
+        } else if (p.zona_reparto == "Este") {
+            expedicionEste.encolar(p);
+        } else {
+            expedicionOeste.encolar(p);
+        }
+    }
+
+    int pasosEspecial = preparacionEspecial.contarElementos();
+    if (pasosEspecial > N_PEDIDOS_PASO) {
+        pasosEspecial = N_PEDIDOS_PASO;
+    }
+    for (int i = 0; i < pasosEspecial; i++) {
+        Pedido p = preparacionEspecial.valorFrente();
+        preparacionEspecial.desencolar();
+        cocina.encolar(p);
+    }
+
+    int pasosRecibidos = recibidos.contarElementos();
+    if(pasosRecibidos > N_PEDIDOS_PASO) {
+        pasosRecibidos = N_PEDIDOS_PASO;
+    }
+
+    for (int i = 0; i < pasosRecibidos; i++) {
+        Pedido p = recibidos.valorFrente();
+        recibidos.desencolar();
+        if(p.personalizada) {
+            preparacionEspecial.encolar(p);
+        }else{
+            cocina.encolar(p);
+        }
+    }
 }

@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/lia_dm_p/Documents/Ing. Informática/E.E.D.Dat/TEMA 1 LAB/CLionProjects/pl1-pizzeria",
+      "program": "/Users/lia_dm_p/Documents/Ing. Informática/E.E.D.Dat/TEMA 1 LAB/CLionProjects/pl1-pizzeria/build/Debug/outDebug"
+    }
+  ]
+}

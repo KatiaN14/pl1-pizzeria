@@ -6,7 +6,9 @@
 using namespace std;
 
 #define ZONAS 4
-#define N_PEDIDOS_PASO 10
+// por que el define PROB_PERSONALIZACION esta en pizzeria2.cpp y no aqui? -> porque se usa allí, pero no debería estar todo junto? que quede más bonito y limpio?
+// no, así lo pone en el doc
+
 /*
  * Esto lo he añadido pq los pedidos avanzan en pasos de de 10 en 10 y se bifurcan en 4 zonas
  * con el define (macros) como pone en el documento
@@ -46,6 +48,8 @@ public:
     void desencolar();
     Pedido valorFrente();
     void mostrarCola(string nombreCola);
+    void paso(string nombreCola);
+    int contarElementos();
     /*
      * void mostrarCola(string nombreCola);
      *Lo de dentro lo he añadido porque ahora tenemos 7 colas, las de expedición y de
@@ -55,5 +59,7 @@ public:
 
 string generarIdPedido(int contador);
 Pedido generarPedidoAleatorio(int &contadorGlobal);
+
+void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Cola &expedicionNorte, Cola &expedicionSur, Cola &expedicionEste, Cola &expedicionOeste);
 
 #endif //PIZZERIA2_H
