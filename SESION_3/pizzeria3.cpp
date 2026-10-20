@@ -9,118 +9,39 @@ using namespace std;
 
 #define PROB_PERSONALIZACION 20
 #define N_PEDIDOS_PASO 10
+#define CAP_CAJA 6
 
 Cola::Cola() : primero(nullptr), ultimo(nullptr) {}
 Cola::~Cola()
 {
     while (!esVacia())
     {
-        desencolar();
+        Pedido aux;
+        desencolar(aux);
     }
 }
 
-Nodo_Cola::Nodo(Pedido p, Nodo_Cola *sig) {
-    pedido = p;
-    siguiente = sig;
-}
-
-void Cola::encolar (Pedido p)
+void Cola::encolar(Pedido p)
 {
-    pNodo_Cola nuevo;
-    nuevo = new Nodo (p);
+    pNodo_Cola nuevo = new Nodo_Cola(p);
     if (ultimo != nullptr) ultimo->siguiente = nuevo;
     ultimo = nuevo;
     if (primero == nullptr) primero = nuevo;
 }
 
-void Cola::desencolar()
+void Cola::desencolar(Pedido &valorFrente)
 {
     if (primero == nullptr) return;
-    pNodo_Cola aux;
-    aux = primero;
+    valorFrente = primero->pedido;
+    pNodo_Cola aux = primero;
     primero = primero->siguiente;
     delete aux;
     if (primero == nullptr) ultimo = nullptr;
 }
 
-Pedido Cola::valorFrente() {
-    if (esVacia()) {
-        Pedido vacio = {"", 0, "", "", "", false, ""};
-        return vacio;
-    }
-    return primero->pedido;
-}
-
 bool Cola::esVacia()
 {
     return primero == nullptr;
-}
-
-Pila::Pila() : cima(nullptr) {}
-Pila::~Pila() {
-
-    while (!esVacia())
-    {
-        desapilar();
-    }
-}
-
-void Pila::apilar(Pedido p) {
-    cima = new Nodo(v, cima);
-}
-
-void Pila::desapilar() {
-    if (esVacia()) return;
-    pNodo_Pila aux = cima;
-    cima = cima->siguiente;
-    delete aux;
-}
-
-int Pila::valorCima() {
-    if (esVacia()) {
-        throw std::runtime_error("Error: Pila vacia.");
-    }
-    return cima->valor;
-}
-
-bool Pila::esVacia() {
-    return cima == nullptr;
-}
-
-int calcularSecuenciaAleatoria(int x) {
-    int numaleat;
-    numaleat = rand() % x;
-
-    return numaleat;
-}
-
-/*
- * He cambiado la función a una más sencilla e igual de funcional con complejidad O(1)
- * porque es una mejor praxis, borrando lineas de código innecesarias.
- */
-
-string generarIdPedido(int contador) {
-    string id = "P" + to_string(10000 + contador);
-    return id;
-}
-
-Pedido generarPedidoAleatorio(int &contadorGlobal) {
-    string tipos[6] = {"Margarita", "Barbacoa", "Vegetal", "Hawaiana", "Romana", "Cuatro quesos"};
-    string tamanos[2] = {"Mediana", "Grande"};
-    string zonas[ZONAS] = {"Norte", "Sur", "Este", "Oeste"};
-
-    contadorGlobal ++;
-
-    Pedido p;
-    p.id_pedido = generarIdPedido(contadorGlobal);
-    p.id_cliente = 100 + calcularSecuenciaAleatoria(900);
-    p.tipo_pizza = tipos[calcularSecuenciaAleatoria(6)];
-    p.tamano = tamanos[calcularSecuenciaAleatoria(2)];
-    p.zona_reparto = zonas[calcularSecuenciaAleatoria(ZONAS)];
-    p.personalizada = (calcularSecuenciaAleatoria(100) < PROB_PERSONALIZACION);
-    p.estado = "Recibido";
-
-    return p;
 }
 
 void Cola::mostrarCola(string nombreCola) {
@@ -133,19 +54,84 @@ void Cola::mostrarCola(string nombreCola) {
     cout << "Pedido   |  Cliente  |       Pizza      |    Tamaño    |   Zona   |   Pers  |       Estado" << endl;
     cout << "---------------------------------------------------------------------------------------------------" << endl;
 
-    pNodo aux = primero;
+    pNodo_Cola aux = primero;
 
     while (aux != nullptr) {
         cout << setw(7) << aux->pedido.id_pedido << setw(3) << "|"
-            << setw(9) << aux->pedido.id_cliente << setw(3) << "|"
-            << setw(16) << aux->pedido.tipo_pizza << setw(3) << "|"
-            << setw(12) << aux->pedido.tamano << setw(3) << "|"
-            << setw(8) << aux->pedido.zona_reparto << setw(3) << "|"
-            << setw(7) << (aux->pedido.personalizada ? "Si" : "No") << setw(3) << "|"
-            << setw(15) << aux->pedido.estado << endl;
+             << setw(9) << aux->pedido.id_cliente << setw(3) << "|"
+             << setw(16) << aux->pedido.tipo_pizza << setw(3) << "|"
+             << setw(12) << aux->pedido.tamano << setw(3) << "|"
+             << setw(8) << aux->pedido.zona_reparto << setw(3) << "|"
+             << setw(7) << (aux->pedido.personalizada ? "Si" : "No") << setw(3) << "|"
+             << setw(15) << aux->pedido.estado << endl;
 
         aux = aux->siguiente;
     }
+}
+
+Pila::Pila() : cima(nullptr) {}
+Pila::~Pila() {
+    while (!esVacia())
+    {
+        Pedido aux;
+        desapilar(aux);
+    }
+}
+
+void Pila::apilar(Pedido p) {
+    cima = new Nodo_Pila(p, cima);
+}
+
+void Pila::desapilar(Pedido &valorCima) {
+    if (esVacia()) return;
+    valorCima = cima->pedido;
+    pNodo_Pila_tipo aux = cima;
+    cima = cima->siguiente;
+    delete aux;
+}
+
+int Pila::contarElementos() {
+    int contador = 0;
+    pNodo_Pila_tipo aux = cima;
+    while (aux != nullptr) {
+        contador++;
+        aux = aux->siguiente;
+    }
+    return contador;
+}
+
+bool Pila::esVacia() {
+    return cima == nullptr;
+}
+
+int calcularSecuenciaAleatoria(int x) {
+    int numaleat;
+    numaleat = rand() % x;
+    return numaleat;
+}
+
+string generarIdPedido(int contador) {
+    string id = "P" + to_string(10000 + contador);
+    return id;
+}
+
+Pedido generarPedidoAleatorio(int &contadorGlobal) {
+    string tipos[6] = {"Margarita", "Barbacoa", "Vegetal", "Hawaiana", "Romana", "Cuatro quesos"};
+    string tamanos[2] = {"Mediana", "Grande"};
+    string zonas[ZONAS] = {"Norte", "Sur", "Este", "Oeste"};
+
+    contadorGlobal++;
+
+    Pedido p;
+    p.id_pedido = generarIdPedido(contadorGlobal);
+    p.id_cliente = 100 + calcularSecuenciaAleatoria(900);
+    p.tipo_pizza = tipos[calcularSecuenciaAleatoria(6)];
+    p.tamano = tamanos[calcularSecuenciaAleatoria(2)];
+    p.zona_reparto = zonas[calcularSecuenciaAleatoria(ZONAS)];
+    p.personalizada = (calcularSecuenciaAleatoria(100) < PROB_PERSONALIZACION);
+    p.estado = "Recibido";
+
+    return p;
 }
 
 int Cola::contarElementos() {

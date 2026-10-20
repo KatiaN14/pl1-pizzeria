@@ -25,16 +25,16 @@ struct Pedido {
 
 class Cola;
 
-class Nodo_Cola {
+class Nodo {
 private:
     Pedido pedido;
-    Nodo_Cola *siguiente;
+    Nodo *siguiente;
 public:
-    Nodo_Cola(Pedido p, Nodo_Cola *sig = nullptr);
+    Nodo(Pedido p, Nodo *sig = nullptr);
     friend class Cola;
 };
 
-typedef Nodo_Cola *pNodo;
+typedef Nodo *pNodo;
 
 class Cola {
 private:

@@ -66,9 +66,12 @@ private:
     Nodo_Pila* cima;
 public:
     Pila();
+    bool esVacia();
     void apilar(Pedido p);
     void desapilar(Pedido &valorCima);
     int contarElementos();
+    void mostrarCaja(string nombreZona);
+    void retirarPedido(string nombrePedido);
 };
 
 string generarIdPedido(int contador);
