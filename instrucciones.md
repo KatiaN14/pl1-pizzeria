@@ -1,4 +1,4 @@
-# Simulación del sistema de pedidos de una pizzaría
+# Simulación del sistema de pedidos de una pizzería
 
 Una pizzería que realiza entregas a domicilio necesita una aplicación sencilla para registrar los pedidos que va
 recibiendo. En esta primera versión del programa se implementará exclusivamente la recepción y
