@@ -219,3 +219,5 @@ void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Col
         }
     }
 }
+
+
