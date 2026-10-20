@@ -50,11 +50,7 @@ public:
     void mostrarCola(string nombreCola);
     void paso(string nombreCola);
     int contarElementos();
-    /*
-     * void mostrarCola(string nombreCola);
-     *Lo de dentro lo he añadido porque ahora tenemos 7 colas, las de expedición y de
-     *preparación, necesitamos pasarle un string para que sepamos qué cola estamos viendo exactamente
-     */
+
 };
 
 string generarIdPedido(int contador);
@@ -63,3 +59,4 @@ Pedido generarPedidoAleatorio(int &contadorGlobal);
 void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Cola &expedicionNorte, Cola &expedicionSur, Cola &expedicionEste, Cola &expedicionOeste);
 
 #endif //PIZZERIA2_H
+//corregido
