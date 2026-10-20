@@ -21,21 +21,21 @@ struct Pedido {
 
 class Cola;
 
-class Nodo {
+class Nodo_Cola {
 private:
     Pedido pedido;
-    Nodo *siguiente;
+    Nodo_Cola *siguiente;
 public:
-    Nodo(Pedido p, Nodo *sig = nullptr);
+    Nodo_Cola(Pedido p, Nodo_Cola *sig = nullptr);
     friend class Cola;
 };
 
-typedef Nodo *pNodo;
+typedef Nodo_Cola *pNodo_Cola;
 
 class Cola {
 private:
-    pNodo primero;
-    pNodo ultimo;
+    pNodo_Cola primero;
+    pNodo_Cola ultimo;
 public:
     Cola();
     ~Cola();
@@ -44,6 +44,7 @@ public:
     void desencolar();
     Pedido valorFrente();
     void mostrarCola(string nombreCola);
+
     /*
      * void mostrarCola(string nombreCola);
      *Lo de dentro lo he añadido porque ahora tenemos 7 colas, las de expedición y de
@@ -53,26 +54,24 @@ public:
 
 class Pila;
 
-class Pila; // Declaración anticipada
-
-class Nodo {
+class Nodo_Pila {
 private:
-    int valor;
-    Nodo *siguiente;
+    Pedido pedido;
+    Nodo_Pila *siguiente;
     friend class Pila;
 public:
-    Nodo(Pedido p, Nodo *sig = nullptr) {
-        valor = v;
+    Nodo_Cola(Pedido p, Nodo_Pila *sig = nullptr) {
+        pedido = p;
         siguiente = sig;
     }
-};
 
-typedef Nodo *pNodo;
+
+typedef Nodo_Pila *pNodo_Pila;
 
 class Pila
 {
 private:
-    pNodo cima;
+    pNodo_Pila cima;
 public:
     Pila();
     ~Pila();

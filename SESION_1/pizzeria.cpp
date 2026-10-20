@@ -20,7 +20,7 @@ Cola::~Cola()
     }
 }
 
-Nodo::Nodo(Pedido p, Nodo* sig) {
+Nodo_Cola::Nodo_Cola(Pedido p, Nodo_Cola* sig) {
     pedido = p;
     siguiente = sig;
 }
@@ -28,7 +28,7 @@ Nodo::Nodo(Pedido p, Nodo* sig) {
 void Cola::encolar (Pedido p)
 {
     pNodo nuevo;
-    nuevo = new Nodo (p);
+    nuevo = new Nodo_Cola (p);
     if (ultimo != nullptr) ultimo->siguiente = nuevo;
     ultimo = nuevo;
     if (primero == nullptr) primero = nuevo;

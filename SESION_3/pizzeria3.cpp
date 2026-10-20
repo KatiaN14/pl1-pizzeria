@@ -19,7 +19,7 @@ Cola::~Cola()
     }
 }
 
-Nodo::Nodo(Pedido p, Nodo *sig) {
+Nodo_Cola::Nodo(Pedido p, Nodo_Cola *sig) {
     pedido = p;
     siguiente = sig;
 }

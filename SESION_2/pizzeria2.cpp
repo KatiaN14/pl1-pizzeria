@@ -118,9 +118,6 @@ void Cola::mostrarCola(string nombreCola) {
     }
 }
 
-
-
-
 int Cola::contarElementos() {
     int contador = 0;
     pNodo aux = primero;
