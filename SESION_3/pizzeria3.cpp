@@ -9,6 +9,7 @@ using namespace std;
 
 #define PROB_PERSONALIZACION 20
 #define N_PEDIDOS_PASO 10
+#define CAP_CAJA 6
 
 Cola::Cola() : primero(nullptr), ultimo(nullptr) {}
 Cola::~Cola()
@@ -202,3 +203,25 @@ void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Col
         }
     }
 }
+
+//funcion para mostrar Cajas junto con el mostrar el estado del sistema
+/*
+ === CAJAS TERMICAS ===
+Zona Norte -> activa: 2/6 enviadas: 0
+Zona Sur -> activa: 2/6 enviadas: 1
+Zona Este -> activa: 3/6 enviadas: 0
+Zona Oeste -> activa: 5/6 enviadas: 0
+Total de cajas enviadas: 1
+Pedidos enviados o retirados: 6
+ */
+
+//funcion para ver el contenido de una caja
+/*
+=== CAJA ACTIVA: ZONA Norte ===
+(cima)
+P10008 - Barbacoa
+P10006 - Vegetal
+P10005 - Romana
+P10000 - Romana
+(fondo)
+*/

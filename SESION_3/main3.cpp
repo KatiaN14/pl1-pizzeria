@@ -9,7 +9,18 @@ int main()
 {
     int opcion;
     int opcion2;
+    int opcion3;
     int contadorGlobal = 0;
+
+    int cajasEnviadasNorte = 0;
+    int cajasEnviadasSur = 0;
+    int cajasEnviadasOeste = 0;
+    int cajasEnviadasEste = 0;
+
+    int motoNorte;
+    int motoSur;
+    int motoOeste;
+    int motoEste;
 
     Cola recibidos;
     Cola preparacionEspecial;
@@ -26,6 +37,8 @@ int main()
         cout << setw(3) << "1" << "\t" << "Generar N pedidos" << endl;
         cout << setw(3) << "2" << "\t" << "Ejecutar un paso de simulación" << endl;
         cout << setw(3) << "3" << "\t" << "Mostrar el estado del sistema" << endl;
+        cout << setw(3) << "4" << "\t" << "Ver la caja activa de una zona" << endl;
+        cout << setw(3) << "5" << "\t" << "Retirar un pedido de una caja activa" << endl;
         cout << setw(3) << "0" << "\t" << "Salir" << endl;
         cout << "Opción: " << endl;
         if(!(cin >> opcion)) {
@@ -70,6 +83,8 @@ int main()
                 cout << setw(3) << "5" << "\t" << "Expedición Sur" << endl;
                 cout << setw(3) << "6" << "\t" << "Expedición Este" << endl;
                 cout << setw(3) << "7" << "\t" << "Expedición Oeste" << endl;
+                cout << setw(3) << "8" << "\t" << "Información sobre cajas" << endl;
+                cout << setw(3) << "9" << "\t" << "Todas las colas y cajas" << endl;
                 cout << "Opción: " << endl;
                 if(!(cin >> opcion2)) {
                     cin.clear();
@@ -98,9 +113,50 @@ int main()
                     case 7:
                         expedicionOeste.mostrarCola("Expedición Oeste");
                         break;
+                    case 8:
+                        //mostrarCajas;
+                        break;
+                    case 9:
+                        recibidos.mostrarCola("Recibidos");
+                        preparacionEspecial.mostrarCola("Preparación especial");
+                        cocina.mostrarCola("Cocina");
+                        expedicionNorte.mostrarCola("Expedición Norte");
+                        expedicionSur.mostrarCola("Expedición Sur");
+                        expedicionEste.mostrarCola("Expedición Este");
+                        expedicionOeste.mostrarCola("Expedición Oeste");
+                        //añadir mostrar cajas;
+                        break;
                     default:
                         cout << "Entrada inválida, solo se aceptan números entre 1 y 7" << endl;
                 }
+                break;
+            case 4:
+                cout << "Qué zona quiere ver?" << endl;
+                cout << "Opción" << setw(15) << "Zona" << endl;
+                cout << setw(3) << "1" << "\t" << "Norte" << endl;
+                cout << setw(3) << "2" << "\t" << "Sur" << endl;
+                cout << setw(3) << "3" << "\t" << "Este" << endl;
+                cout << setw(3) << "4" << "\t" << "Oeste" << endl;
+                cout << "Opción: " << endl;
+                if(!(cin >> opcion3)) {
+                    cin.clear();
+                    cin.ignore(1000,'\n');
+                    opcion3 = -1;
+                }
+                switch(opcion3) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        cout << "Entrada inválida, solo se aceptan números entre 1 y 4" << endl;
+                }
+                break;
+            case 5:
                 break;
             case 0:
                 cout << "Hasta pronto!" << endl;
