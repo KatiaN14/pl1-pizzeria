@@ -8,6 +8,7 @@ using namespace std;
 #define ZONAS 4
 // por que el define PROB_PERSONALIZACION esta en pizzeria2.cpp y no aqui? -> porque se usa allí, pero no debería estar todo junto? que quede más bonito y limpio?
 // no, así lo pone en el doc
+#define N_PEDIDOS_PASO 10
 
 /*
  * Esto lo he añadido pq los pedidos avanzan en pasos de de 10 en 10 y se bifurcan en 4 zonas

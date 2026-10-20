@@ -8,7 +8,6 @@
 using namespace std;
 
 #define PROB_PERSONALIZACION 20
-#define N_PEDIDOS_PASO 10
 
 Cola::Cola() : primero(nullptr), ultimo(nullptr) {}
 Cola::~Cola()
