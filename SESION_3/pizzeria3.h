@@ -40,6 +40,7 @@ private:
     pNodo_Cola ultimo;
 public:
     Cola();
+    ~Cola();
     bool esVacia();
     void encolar(Pedido p);
     void desencolar(Pedido &valorFrente);
@@ -66,6 +67,7 @@ private:
     Nodo_Pila* cima;
 public:
     Pila();
+    ~Pila();
     bool esVacia();
     void apilar(Pedido p);
     void desapilar(Pedido &valorCima);
@@ -77,6 +79,15 @@ public:
 string generarIdPedido(int contador);
 Pedido generarPedidoAleatorio(int &contadorGlobal);
 
+void mostrarResumenCajas(
+    Pila &cajaNorte,
+    Pila &cajaSur,
+    Pila &cajaEste,
+    Pila &cajaOeste,
+    int cajasEnviadas[],
+    int totalPedidosRetirados
+    );
+
 void ejecutarPasos(
     Cola &recibidos,
     Cola &preparacionEspecial,
@@ -84,7 +95,12 @@ void ejecutarPasos(
     Cola &expedicionNorte,
     Cola &expedicionSur,
     Cola &expedicionEste,
-    Cola &expedicionOeste
-    );
+    Cola &expedicionOeste,
+    Pila &cajaNorte,
+    Pila &cajaSur,
+    Pila &cajaEste,
+    Pila &cajaOeste,
+    int cajasEnviadas[]
+);
 
 #endif // PIZZERIA3_H

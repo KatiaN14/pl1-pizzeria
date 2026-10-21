@@ -134,6 +134,37 @@ Pedido generarPedidoAleatorio(int &contadorGlobal) {
     return p;
 }
 
+void mostrarResumenCajas(Pila &cajaNorte, Pila &cajaSur, Pila &cajaEste, Pila &cajaOeste, int cajasEnviadas[], int totalPedidosRetirados) {
+    cout << "\n=== CAJAS TERMICAS ===" << endl;
+    cout << "Zona Norte -> activa: " << cajaNorte.contarElementos() << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[0] << endl;
+    cout << "Zona Sur   -> activa: " << cajaSur.contarElementos()   << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[1] << endl;
+    cout << "Zona Este  -> activa: " << cajaEste.contarElementos()  << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[2] << endl;
+    cout << "Zona Oeste -> activa: " << cajaOeste.contarElementos() << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[3] << endl;
+
+    /*
+     * mostrarResumenCajas es literalmente el siguiente menu:
+    === CAJAS TERMICAS ===
+    Zona Norte -> activa: a1/6 enviadas: a2
+    Zona Sur -> activa: b1/6 enviadas: b2
+    Zona Este -> activa: c1/6 enviadas: c2
+    Zona Oeste -> activa: d1/6 enviadas: d2
+    Total de cajas enviadas: X
+    Pedidos enviados o retirados: Y
+     *
+     */
+
+    /*
+     * totalEnviadas literalmente suma los valores de las 4 posiciones del array del main
+     */
+    int totalEnviadas = cajasEnviadas[0] + cajasEnviadas[1] + cajasEnviadas[2] + cajasEnviadas[3];
+    cout << "Total de cajas enviadas: " << totalEnviadas << endl;
+    cout << "Pedidos enviados o retirados: " << (totalEnviadas * CAP_CAJA) + totalPedidosRetirados << endl;
+    /*
+     * Aqui calculo el volumen total de pedidos que hemos retirado (si son 3 cajas, 18 pedidos vaya), para eso he multiplicado
+     * para obtener los pedidos entregados con éxito, y le sumo la variable para contar los descartados por incidencias
+     */
+}
+
 int Cola::contarElementos() {
     int contador = 0;
     pNodo aux = primero;

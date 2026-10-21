@@ -5,22 +5,48 @@
 
 using namespace std;
 
+/*
+=== CAJAS TERMICAS ===
+Zona Norte -> activa: 2/6 enviadas: 0
+Zona Sur -> activa: 2/6 enviadas: 1
+Zona Este -> activa: 3/6 enviadas: 0
+Zona Oeste -> activa: 5/6 enviadas: 0
+Total de cajas enviadas: 1
+Pedidos enviados o retirados: 6
+
+=== CAJA ACTIVA: ZONA Norte ===
+(cima)
+ P10008 - Barbacoa
+ P10006 - Vegetal
+ P10005 - Romana
+ P10000 - Romana
+(fondo)
+
+*/
+
 int main()
 {
     int opcion;
     int opcion2;
     int opcion3;
     int contadorGlobal = 0;
+    int totalPedidosRetirados = 0; //Para el resumen
 
+    /*
     int cajasEnviadasNorte = 0;
     int cajasEnviadasSur = 0;
     int cajasEnviadasOeste = 0;
     int cajasEnviadasEste = 0;
+    */
 
-    int motoNorte;
-    int motoSur;
-    int motoOeste;
-    int motoEste;
+    //Creo q así es mejor y no hay que ponerlo así, mejor un array
+    int cajasEnviadas[4] = {0, 0, 0, 0};
+
+    //Pilas nuevas
+    Pila cajaNorte;
+    Pila cajaSur;
+    Pila cajaEste;
+    Pila cajaOeste;
 
     Cola recibidos;
     Cola preparacionEspecial;
