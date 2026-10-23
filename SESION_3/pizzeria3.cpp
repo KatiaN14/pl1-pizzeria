@@ -292,19 +292,6 @@ void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Col
         }
     }
 }
-
-//funcion para mostrar Cajas junto con el mostrar el estado del sistema
-/*
- === CAJAS TERMICAS ===
-Zona Norte -> activa: 2/6 enviadas: 0
-Zona Sur -> activa: 2/6 enviadas: 1
-Zona Este -> activa: 3/6 enviadas: 0
-Zona Oeste -> activa: 5/6 enviadas: 0
-Total de cajas enviadas: 1
-Pedidos enviados o retirados: 6
- */
-
-
  
 //funcion para ver el contenido de una caja
 /*
