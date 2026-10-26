@@ -303,3 +303,68 @@ P10005 - Romana
 P10000 - Romana
 (fondo)
 */
+
+void Pila::mostrarCaja() {
+    if (Pila == cajaNorte) {
+        cout << "\n=== CAJA ACTIVA: ZONA Norte ===" << endl;
+    } else if (Pila == cajaSur) {
+        cout << "\n=== CAJA ACTIVA: ZONA Sur ===" << endl;
+    } else if (Pila == cajaEste) {
+        cout << "\n=== CAJA ACTIVA: ZONA Este ===" << endl;
+    } else if (Pila == cajaOeste) {
+        cout << "\n=== CAJA ACTIVA: ZONA Oeste ===" << endl;
+    }
+
+    if (esVacia()) {
+        cout << "[Aviso] La caja está vacía." << endl;
+        return;
+    }
+
+    cout << "(cima)" << endl;
+    pNodo_Pila_tipo aux = cima;
+    while (aux != nullptr) {
+        cout << aux->valor << endl;
+        aux = aux->siguiente;
+    }
+    cout << "(fondo)" << endl;
+}
+
+void Pila::retirarPedido() {
+    cout << "Ingrese el ID del pedido que desea retirar: ";
+    cout << "ID: " << endl;
+    if(!(cin >> idPedido)) {
+        cin.clear();
+        cin.ignore(1000,'\n');
+        idPedido = -1;
+    }
+    if (esVacia()) {
+        cout << "[Aviso] La caja está vacía. No se puede retirar ningún pedido." << endl;
+        return;
+    }
+
+    Pila auxPila;
+    bool encontrado = false;
+
+    while (!esVacia()) {
+        Pedido p;
+        desapilar(p);
+        if (p.id_pedido == idPedido) {
+            encontrado = true;
+            cout << "Pedido " << idPedido << " retirado de la caja." << endl;
+            break;
+        } else {
+            auxPila.apilar(p);
+        }
+    }
+
+    while (!auxPila.esVacia()) {
+        Pedido p;
+        auxPila.desapilar(p);
+        apilar(p);
+    }
+
+    if (!encontrado) {
+        cout << "[Aviso] Pedido " << idPedido << " no encontrado en la caja." << endl;
+    }
+}
+
