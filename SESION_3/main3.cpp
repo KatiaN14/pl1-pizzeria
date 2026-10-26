@@ -5,25 +5,6 @@
 
 using namespace std;
 
-/*
-=== CAJAS TERMICAS ===
-Zona Norte -> activa: 2/6 enviadas: 0
-Zona Sur -> activa: 2/6 enviadas: 1
-Zona Este -> activa: 3/6 enviadas: 0
-Zona Oeste -> activa: 5/6 enviadas: 0
-Total de cajas enviadas: 1
-Pedidos enviados o retirados: 6
-
-=== CAJA ACTIVA: ZONA Norte ===
-(cima)
- P10008 - Barbacoa
- P10006 - Vegetal
- P10005 - Romana
- P10000 - Romana
-(fondo)
-
-*/
-
 int main()
 {
     int opcion;
@@ -31,13 +12,6 @@ int main()
     int opcion3;
     int contadorGlobal = 0;
     int totalPedidosRetirados = 0; //Para el resumen
-
-    /*
-    int cajasEnviadasNorte = 0;
-    int cajasEnviadasSur = 0;
-    int cajasEnviadasOeste = 0;
-    int cajasEnviadasEste = 0;
-    */
 
     //Creo q así es mejor y no hay que ponerlo así, mejor un array
     int cajasEnviadas[4] = {0, 0, 0, 0};
@@ -140,7 +114,7 @@ int main()
                         expedicionOeste.mostrarCola("Expedición Oeste");
                         break;
                     case 8:
-                        //mostrarCajas;
+                        mostrarResumenCajas(cajaNorte, cajaSur, cajaEste, cajaOeste, cajasEnviadas, totalPedidosRetirados);
                         break;
                     case 9:
                         recibidos.mostrarCola("Recibidos");
@@ -150,7 +124,7 @@ int main()
                         expedicionSur.mostrarCola("Expedición Sur");
                         expedicionEste.mostrarCola("Expedición Este");
                         expedicionOeste.mostrarCola("Expedición Oeste");
-                        //añadir mostrar cajas;
+                        mostrarResumenCajas(cajaNorte, cajaSur, cajaEste, cajaOeste, cajasEnviadas, totalPedidosRetirados);
                         break;
                     default:
                         cout << "Entrada inválida, solo se aceptan números entre 1 y 7" << endl;
@@ -171,18 +145,50 @@ int main()
                 }
                 switch(opcion3) {
                     case 1:
+                        cajaNorte.mostrarCaja();
                         break;
                     case 2:
+                        cajaSur.mostrarCaja();
                         break;
                     case 3:
+                        cajaEste.mostrarCaja();
                         break;
                     case 4:
+                        cajaOeste.mostrarCaja();
                         break;
                     default:
                         cout << "Entrada inválida, solo se aceptan números entre 1 y 4" << endl;
                 }
                 break;
             case 5:
+                cout << "De cuál caja quiere retirar el pedido?" << endl;
+                cout << "Opción" << setw(15) << "Caja de la zona" << endl;
+                cout << setw(3) << "1" << "\t" << "Norte" << endl;
+                cout << setw(3) << "2" << "\t" << "Sur" << endl;
+                cout << setw(3) << "3" << "\t" << "Este" << endl;
+                cout << setw(3) << "4" << "\t" << "Oeste" << endl;
+                cout << "Opción: " << endl;
+                if(!(cin >> opcion3)) {
+                    cin.clear();
+                    cin.ignore(1000,'\n');
+                    opcion3 = -1;
+                }
+                switch(opcion3) {
+                    case 1:
+                        cajaNorte.retirarPedido();
+                        break;
+                    case 2:
+                        cajaSur.retirarPedido();
+                        break;
+                    case 3:
+                        cajaEste.retirarPedido();
+                        break;
+                    case 4:
+                        cajaOeste.retirarPedido();
+                        break;
+                    default:
+                        cout << "Entrada inválida, solo se aceptan números entre 1 y 4" << endl;
+                }
                 break;
             case 0:
                 cout << "Hasta pronto!" << endl;
