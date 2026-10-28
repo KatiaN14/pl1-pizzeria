@@ -1,52 +1,45 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include <ctime>
 #include <iomanip>
+#include <stdexcept>
 #include "pizzeria3.h"
 
 using namespace std;
 
 #define PROB_PERSONALIZACION 20
-#define N_PEDIDOS_PASO 10
-#define CAP_CAJA 6
 
 Cola::Cola() : primero(nullptr), ultimo(nullptr) {}
-Cola::~Cola()
-{
-    while (!esVacia())
-    {
-        Pedido aux;
-        desencolar(aux);
+
+Cola::~Cola() {
+    while (!esVacia()) {
+        desencolar();
     }
 }
 
-Nodo::Nodo(Pedido p, Nodo *sig) {
-    pedido = p;
-    siguiente = sig;
-}
-
-void Cola::encolar (Pedido p)
-{
-    pNodo nuevo;
-    nuevo = new Nodo (p);
+void Cola::encolar(Pedido p) {
+    pNodo nuevo = new Nodo(p);
     if (ultimo != nullptr) ultimo->siguiente = nuevo;
     ultimo = nuevo;
     if (primero == nullptr) primero = nuevo;
 }
 
-void Cola::desencolar(Pedido &valorFrente)
-{
+void Cola::desencolar() {
     if (primero == nullptr) return;
-    pNodo aux;
-    aux = primero;
+    pNodo aux = primero;
     primero = primero->siguiente;
     delete aux;
     if (primero == nullptr) ultimo = nullptr;
 }
 
-bool Cola::esVacia()
-{
+Pedido Cola::valorFrente() {
+    if (esVacia()) {
+        throw runtime_error("Error: Cola vacia.");
+    }
+    return primero->pedido;
+}
+
+bool Cola::esVacia() {
     return primero == nullptr;
 }
 
@@ -58,8 +51,8 @@ Pila::~Pila() {
     }
 }
 
-void Pila::apilar(int v) {
-    cima = new Nodo(v, cima);
+void Pila::apilar(Pedido p) {
+    cima = new Nodo(p, cima);
 }
 
 void Pila::desapilar() {
@@ -69,11 +62,11 @@ void Pila::desapilar() {
     delete aux;
 }
 
-int Pila::valorCima() {
+Pedido Pila::valorCima() {
     if (esVacia()) {
-        throw std::runtime_error("Error: Pila vacia.");
+        throw runtime_error("Error: Pila vacia.");
     }
-    return cima->valor;
+    return cima->pedido;
 }
 
 bool Pila::esVacia() {
@@ -81,111 +74,11 @@ bool Pila::esVacia() {
 }
 
 int calcularSecuenciaAleatoria(int x) {
-    int numaleat;
-    numaleat = rand() % x;
-
-    return numaleat;
-}
-
-/*
- * He cambiado la función a una más sencilla e igual de funcional con complejidad O(1)
- * porque es una mejor praxis, borrando lineas de código innecesarias.
- */
-
-//pero por ejemplo el pedido numero 150 tendra Id P10000150 en vez de P100150...
-string generarIdPedido(int contador) {
-    string id = "P" + to_string(10000 + contador);
-    return id;
-}
-
-Pedido generarPedidoAleatorio(int &contadorGlobal) {
-    string tipos[6] = {"Margarita", "Barbacoa", "Vegetal", "Hawaiana", "Romana", "Cuatro quesos"};
-    string tamanos[2] = {"Mediana", "Grande"};
-    string zonas[ZONAS] = {"Norte", "Sur", "Este", "Oeste"};
-
-    contadorGlobal ++;
-
-    Pedido p;
-    p.id_pedido = generarIdPedido(contadorGlobal);
-    p.id_cliente = 100 + calcularSecuenciaAleatoria(900);
-    p.tipo_pizza = tipos[calcularSecuenciaAleatoria(6)];
-    p.tamano = tamanos[calcularSecuenciaAleatoria(2)];
-    p.zona_reparto = zonas[calcularSecuenciaAleatoria(ZONAS)];
-    p.personalizada = (calcularSecuenciaAleatoria(100) < PROB_PERSONALIZACION);
-    p.estado = "Recibido";
-
-    return p;
-}
-
-void Cola::mostrarCola(string nombreCola) {
-    if (esVacia()) {
-        cout << "\n[Aviso] La cola " << nombreCola << " esta vacia.\n" << endl;
-        return;
-    }
-
-    cout << "\n=== " << nombreCola << " ===" << endl;
-    cout << "Pedido   |  Cliente  |       Pizza      |    Tamaño    |   Zona   |   Pers  |       Estado" << endl;
-    cout << "---------------------------------------------------------------------------------------------------" << endl;
-
-    pNodo_Cola aux = primero;
-
-    while (aux != nullptr) {
-        cout << setw(7) << aux->pedido.id_pedido << setw(3) << "|"
-             << setw(9) << aux->pedido.id_cliente << setw(3) << "|"
-             << setw(16) << aux->pedido.tipo_pizza << setw(3) << "|"
-             << setw(12) << aux->pedido.tamano << setw(3) << "|"
-             << setw(8) << aux->pedido.zona_reparto << setw(3) << "|"
-             << setw(7) << (aux->pedido.personalizada ? "Si" : "No") << setw(3) << "|"
-             << setw(15) << aux->pedido.estado << endl;
-
-        aux = aux->siguiente;
-    }
-}
-
-Pila::Pila() : cima(nullptr) {}
-Pila::~Pila() {
-    while (!esVacia())
-    {
-        Pedido aux;
-        desapilar(aux);
-    }
-}
-
-void Pila::apilar(Pedido p) {
-    cima = new Nodo_Pila(p, cima);
-}
-
-void Pila::desapilar(Pedido &valorCima) {
-    if (esVacia()) return;
-    valorCima = cima->pedido;
-    pNodo_Pila_tipo aux = cima;
-    cima = cima->siguiente;
-    delete aux;
-}
-
-int Pila::contarElementos() {
-    int contador = 0;
-    pNodo_Pila_tipo aux = cima;
-    while (aux != nullptr) {
-        contador++;
-        aux = aux->siguiente;
-    }
-    return contador;
-}
-
-bool Pila::esVacia() {
-    return cima == nullptr;
-}
-
-int calcularSecuenciaAleatoria(int x) {
-    int numaleat;
-    numaleat = rand() % x;
-    return numaleat;
+    return rand() % x;
 }
 
 string generarIdPedido(int contador) {
-    string id = "P" + to_string(10000 + contador);
-    return id;
+    return "P" + to_string(10000 + contador);
 }
 
 Pedido generarPedidoAleatorio(int &contadorGlobal) {
@@ -207,55 +100,154 @@ Pedido generarPedidoAleatorio(int &contadorGlobal) {
     return p;
 }
 
-void mostrarResumenCajas(Pila &cajaNorte, Pila &cajaSur, Pila &cajaEste, Pila &cajaOeste, int cajasEnviadas[], int totalPedidosRetirados) {
-    cout << "\n=== CAJAS TERMICAS ===" << endl;
-    cout << "Zona Norte -> activa: " << cajaNorte.contarElementos() << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[0] << endl;
-    cout << "Zona Sur   -> activa: " << cajaSur.contarElementos()   << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[1] << endl;
-    cout << "Zona Este  -> activa: " << cajaEste.contarElementos()  << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[2] << endl;
-    cout << "Zona Oeste -> activa: " << cajaOeste.contarElementos() << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[3] << endl;
-
-    /*
-     * mostrarResumenCajas es literalmente el siguiente menu:
-    === CAJAS TERMICAS ===
-    Zona Norte -> activa: a1/6 enviadas: a2
-    Zona Sur -> activa: b1/6 enviadas: b2
-    Zona Este -> activa: c1/6 enviadas: c2
-    Zona Oeste -> activa: d1/6 enviadas: d2
-    Total de cajas enviadas: X
-    Pedidos enviados o retirados: Y
-     *
-     */
-
-    /*
-     * totalEnviadas literalmente suma los valores de las 4 posiciones del array del main
-     */
-    int totalEnviadas = cajasEnviadas[0] + cajasEnviadas[1] + cajasEnviadas[2] + cajasEnviadas[3];
-    cout << "Total de cajas enviadas: " << totalEnviadas << endl;
-    cout << "Pedidos enviados o retirados: " << (totalEnviadas * CAP_CAJA) + totalPedidosRetirados << endl;
-    /*
-     * Aqui calculo el volumen total de pedidos que hemos retirado (si son 3 cajas, 18 pedidos vaya), para eso he multiplicado
-     * para obtener los pedidos entregados con éxito, y le sumo la variable para contar los descartados por incidencias
-     */
-}
-
-int Cola::contarElementos() {
+int contarCola(Cola &c) {
+    Cola aux;
     int contador = 0;
-    pNodo aux = primero;
-    while(aux != nullptr) {
+    while (!c.esVacia()) {
+        aux.encolar(c.valorFrente());
+        c.desencolar();
         contador++;
-        aux = aux -> siguiente;
+    }
+    while (!aux.esVacia()) {
+        c.encolar(aux.valorFrente());
+        aux.desencolar();
     }
     return contador;
 }
 
-void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Cola &expedicionNorte, Cola &expedicionSur, Cola &expedicionEste, Cola &expedicionOeste) {
-    int pasosCocina = cocina.contarElementos();
-    if (pasosCocina > N_PEDIDOS_PASO) {
-        pasosCocina = N_PEDIDOS_PASO;
+int contarCaja(Pila &caja) {
+    Pila aux;
+    int contador = 0;
+    //podriamos en vez de hacerlo asi, hacer copia de una caja y contar sus elementos?
+    while (!caja.esVacia()) {
+        aux.apilar(caja.valorCima());
+        caja.desapilar();
+        contador++;
     }
-    for(int i = 0; i < pasosCocina; i++) {
+    while (!aux.esVacia()) {      
+        caja.apilar(aux.valorCima());
+        aux.desapilar();
+    }
+    return contador;
+}
+
+void mostrarCola(Cola &c, const string &nombreCola) {
+    if (c.esVacia()) {
+        cout << "\n[Aviso] La cola " << nombreCola << " esta vacia.\n" << endl;
+        return;
+    }
+
+    cout << "\n=== " << nombreCola << " ===" << endl;
+    cout << "Pedido   |  Cliente  |       Pizza      |    Tamaño    |   Zona   |   Pers  |       Estado" << endl;
+    cout << "---------------------------------------------------------------------------------------------------" << endl;
+
+    Cola aux;
+    while (!c.esVacia()) {
+        Pedido p = c.valorFrente();
+        c.desencolar();
+        cout << setw(7) << p.id_pedido << setw(3) << "|"
+             << setw(9) << p.id_cliente << setw(3) << "|"
+             << setw(16) << p.tipo_pizza << setw(3) << "|"
+             << setw(12) << p.tamano << setw(3) << "|"
+             << setw(8) << p.zona_reparto << setw(3) << "|"
+             << setw(7) << (p.personalizada ? "Si" : "No") << setw(3) << "|"
+             << setw(15) << p.estado << endl;
+        aux.encolar(p);
+    }
+    while (!aux.esVacia()) {
+        c.encolar(aux.valorFrente());
+        aux.desencolar();
+    }
+}
+
+void mostrarCaja(Pila &caja) {
+    if (caja.esVacia()) {
+        cout << "[Aviso] La caja está vacía." << endl;
+        return;
+    }
+
+    cout << "(cima)" << endl;
+    Pila aux;
+    while (!caja.esVacia()) {
+        Pedido p = caja.valorCima();
+        caja.desapilar();
+        cout << p.id_pedido << " - " << p.tipo_pizza << endl;
+        aux.apilar(p);
+    }
+    cout << "(fondo)" << endl;
+    while (!aux.esVacia()) {
+        caja.apilar(aux.valorCima());
+        aux.desapilar();
+    }
+}
+
+bool retirarPedido(Pila &caja, const string &idPedido, Cola &finalizados) {
+    Pila aux;
+    bool encontrado = false;
+
+    while (!caja.esVacia() && !encontrado) {
+        Pedido p = caja.valorCima();
+        caja.desapilar();
+        if (p.id_pedido == idPedido) {
+            p.estado = "Retirado";
+            finalizados.encolar(p);
+            encontrado = true;      // no se vuelve a apilar: queda retirado
+        } else {
+            aux.apilar(p);
+        }
+    }
+    while (!aux.esVacia()) {
+        caja.apilar(aux.valorCima());
+        aux.desapilar();
+    }
+    return encontrado;
+}
+
+void mostrarResumenCajas(Pila &cajaNorte, Pila &cajaSur, Pila &cajaEste, Pila &cajaOeste,
+                         int cajasEnviadas[], int totalPedidosRetirados) {
+    cout << "\n=== CAJAS TERMICAS ===" << endl;
+    cout << "Zona Norte -> activa: " << contarCaja(cajaNorte) << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[0] << endl;
+    cout << "Zona Sur   -> activa: " << contarCaja(cajaSur)   << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[1] << endl;
+    cout << "Zona Este  -> activa: " << contarCaja(cajaEste)  << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[2] << endl;
+    cout << "Zona Oeste -> activa: " << contarCaja(cajaOeste) << "/" << CAP_CAJA << "  enviadas: " << cajasEnviadas[3] << endl;
+
+    int totalEnviadas = cajasEnviadas[0] + cajasEnviadas[1] + cajasEnviadas[2] + cajasEnviadas[3];
+    cout << "Total de cajas enviadas: " << totalEnviadas << endl;
+    cout << "Pedidos enviados o retirados: " << (totalEnviadas * CAP_CAJA) + totalPedidosRetirados << endl;
+}
+
+void procesarCaja(Pila &caja, Cola &expedicionZona, int cajasEnviadas[], Cola &finalizados, int zona) {
+    int enCaja = contarCaja(caja);     
+
+    while (!expedicionZona.esVacia() && enCaja < CAP_CAJA) {
+        Pedido p = expedicionZona.valorFrente();
+        expedicionZona.desencolar();
+        p.estado = "En caja";          
+        caja.apilar(p);
+        enCaja++;
+    }
+
+    if (enCaja == CAP_CAJA) {          
+        while (!caja.esVacia()) {
+            Pedido p = caja.valorCima();
+            caja.desapilar();
+            p.estado = "Enviado";
+            finalizados.encolar(p);
+        }
+        cajasEnviadas[zona]++;
+    }
+}
+
+void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Cola &expedicionNorte, Cola &expedicionSur, Cola &expedicionEste, Cola &expedicionOeste, Pila &cajaNorte, Pila &cajaSur, Pila &cajaEste, Pila &cajaOeste, int cajasEnviadas[], Cola &finalizados) {
+    procesarCaja(cajaNorte, expedicionNorte, cajasEnviadas, finalizados, 0);
+    procesarCaja(cajaSur,   expedicionSur,   cajasEnviadas, finalizados, 1);
+    procesarCaja(cajaEste,  expedicionEste,  cajasEnviadas, finalizados, 2);
+    procesarCaja(cajaOeste, expedicionOeste, cajasEnviadas, finalizados, 3);
+
+    for (int i = 0; i < N_PEDIDOS_PASO && !cocina.esVacia(); i++) {
         Pedido p = cocina.valorFrente();
         cocina.desencolar();
+        p.estado = "En expedición";
         if (p.zona_reparto == "Norte") {
             expedicionNorte.encolar(p);
         } else if (p.zona_reparto == "Sur") {
@@ -267,104 +259,22 @@ void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Col
         }
     }
 
-    int pasosEspecial = preparacionEspecial.contarElementos();
-    if (pasosEspecial > N_PEDIDOS_PASO) {
-        pasosEspecial = N_PEDIDOS_PASO;
-    }
-    for (int i = 0; i < pasosEspecial; i++) {
+    for (int i = 0; i < N_PEDIDOS_PASO && !preparacionEspecial.esVacia(); i++) {
         Pedido p = preparacionEspecial.valorFrente();
         preparacionEspecial.desencolar();
+        p.estado = "En cocina";
         cocina.encolar(p);
     }
 
-    int pasosRecibidos = recibidos.contarElementos();
-    if(pasosRecibidos > N_PEDIDOS_PASO) {
-        pasosRecibidos = N_PEDIDOS_PASO;
-    }
-
-    for (int i = 0; i < pasosRecibidos; i++) {
+    for (int i = 0; i < N_PEDIDOS_PASO && !recibidos.esVacia(); i++) {
         Pedido p = recibidos.valorFrente();
         recibidos.desencolar();
-        if(p.personalizada) {
+        if (p.personalizada) {
+            p.estado = "Prep. especial";
             preparacionEspecial.encolar(p);
-        }else{
+        } else {
+            p.estado = "En cocina";
             cocina.encolar(p);
         }
     }
 }
- 
-//funcion para ver el contenido de una caja
-/*
-=== CAJA ACTIVA: ZONA Norte ===
-(cima)
-P10008 - Barbacoa
-P10006 - Vegetal
-P10005 - Romana
-P10000 - Romana
-(fondo)
-*/
-
-void Pila::mostrarCaja() {
-    if (Pila == cajaNorte) {
-        cout << "\n=== CAJA ACTIVA: ZONA Norte ===" << endl;
-    } else if (Pila == cajaSur) {
-        cout << "\n=== CAJA ACTIVA: ZONA Sur ===" << endl;
-    } else if (Pila == cajaEste) {
-        cout << "\n=== CAJA ACTIVA: ZONA Este ===" << endl;
-    } else if (Pila == cajaOeste) {
-        cout << "\n=== CAJA ACTIVA: ZONA Oeste ===" << endl;
-    }
-
-    if (esVacia()) {
-        cout << "[Aviso] La caja está vacía." << endl;
-        return;
-    }
-
-    cout << "(cima)" << endl;
-    pNodo_Pila_tipo aux = cima;
-    while (aux != nullptr) {
-        cout << aux->valor << endl;
-        aux = aux->siguiente;
-    }
-    cout << "(fondo)" << endl;
-}
-
-void Pila::retirarPedido() {
-    cout << "Ingrese el ID del pedido que desea retirar: ";
-    cout << "ID: " << endl;
-    if(!(cin >> idPedido)) {
-        cin.clear();
-        cin.ignore(1000,'\n');
-        idPedido = -1;
-    }
-    if (esVacia()) {
-        cout << "[Aviso] La caja está vacía. No se puede retirar ningún pedido." << endl;
-        return;
-    }
-
-    Pila auxPila;
-    bool encontrado = false;
-
-    while (!esVacia()) {
-        Pedido p;
-        desapilar(p);
-        if (p.id_pedido == idPedido) {
-            encontrado = true;
-            cout << "Pedido " << idPedido << " retirado de la caja." << endl;
-            break;
-        } else {
-            auxPila.apilar(p);
-        }
-    }
-
-    while (!auxPila.esVacia()) {
-        Pedido p;
-        auxPila.desapilar(p);
-        apilar(p);
-    }
-
-    if (!encontrado) {
-        cout << "[Aviso] Pedido " << idPedido << " no encontrado en la caja." << endl;
-    }
-}
-
