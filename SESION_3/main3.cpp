@@ -177,15 +177,25 @@ int main()
                     cout << "Entrada inválida, solo se aceptan números entre 1 y 4" << endl;
                     break;
                 }
-                cout << "Ingrese el ID del pedido que desea retirar: " << endl;
-                cin >> idPedido;
                 if (opcion3 == 1) {
+                    mostrarCaja(cajaNorte);
+                    cout << "Ingrese el ID del pedido que desea retirar: " << endl;
+                    cin >> idPedido;
                     retirado = retirarPedido(cajaNorte, idPedido, finalizados);
                 } else if (opcion3 == 2) {
+                    mostrarCaja(cajaSur);
+                    cout << "Ingrese el ID del pedido que desea retirar: " << endl;
+                    cin >> idPedido;
                     retirado = retirarPedido(cajaSur, idPedido, finalizados);
                 } else if (opcion3 == 3) {
+                    mostrarCaja(cajaEste);
+                    cout << "Ingrese el ID del pedido que desea retirar: " << endl;
+                    cin >> idPedido;
                     retirado = retirarPedido(cajaEste, idPedido, finalizados);
                 } else {
+                    mostrarCaja(cajaOeste);
+                    cout << "Ingrese el ID del pedido que desea retirar: " << endl;
+                    cin >> idPedido;
                     retirado = retirarPedido(cajaOeste, idPedido, finalizados);
                 }
                 if (retirado) {
