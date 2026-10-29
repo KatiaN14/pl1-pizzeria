@@ -8,5 +8,5 @@ include_directories(.)
 add_executable(pl1_pizzeria
         main3.cpp
         pizzeria3.cpp
-        pizzeria3.cpp
+        pizzeria3.h
 )
