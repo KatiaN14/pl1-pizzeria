@@ -79,3 +79,5 @@ void procesarCaja(Pila &caja, Cola &expedicionZona, int cajasEnviadas[], Cola &f
 void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Cola &expedicionNorte, Cola &expedicionSur, Cola &expedicionEste, Cola &expedicionOeste, Pila &cajaNorte, Pila &cajaSur, Pila &cajaEste, Pila &cajaOeste, int cajasEnviadas[], Cola &finalizados);
 
 #endif // PIZZERIA4_H
+
+//FIN
