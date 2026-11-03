@@ -5,9 +5,10 @@
 
 using namespace std;
 
-#define ZONAS 4
-#define N_PEDIDOS_PASO 10
-#define CAP_CAJA 6
+const int ZONAS = 4;
+const int N_PEDIDOS_PASO = 10;
+const int CAP_CAJA = 6;
+const int MAX_PEDIDOS = 9999;
 
 struct Pedido {
     string id_pedido;
@@ -19,88 +20,62 @@ struct Pedido {
     string estado;
 };
 
-class Cola;
-
-class Nodo_Cola {
+class Nodo {
 private:
     Pedido pedido;
-    Nodo_Cola* siguiente;
-public:
-    Nodo_Cola(Pedido p, Nodo_Cola* sig = nullptr)
-        : pedido(p), siguiente(sig) {}
-
+    Nodo *siguiente;
     friend class Cola;
+    friend class Pila;
+public:
+    Nodo(Pedido p, Nodo *sig = nullptr) : pedido(p), siguiente(sig) {}
 };
 
-typedef Nodo_Cola* pNodo_Cola;
+typedef Nodo *pNodo;
 
 class Cola {
 private:
-    pNodo_Cola primero;
-    pNodo_Cola ultimo;
+    pNodo primero;
+    pNodo ultimo;
 public:
-    Cola();
+    Cola();                          
     ~Cola();
-    bool esVacia();
-    void encolar(Pedido p);
-    void desencolar(Pedido &valorFrente);
-    void mostrarCola(string nombreCola);
+    Cola(const Cola &) = delete;     
+    Cola &operator=(const Cola &) = delete;
+    void encolar(Pedido p);          
+    void desencolar();               
+    Pedido valorFrente();           
+    bool esVacia();                  
 };
-
-class Pila;
-
-class Nodo_Pila {
-private:
-    Pedido pedido;
-    Nodo_Pila* siguiente;
-public:
-    Nodo_Pila(Pedido p, Nodo_Pila* sig = nullptr)
-        : pedido(p), siguiente(sig) {}
-
-    friend class Pila;
-};
-
-typedef Nodo_Pila* pNodo_Pila_tipo;
 
 class Pila {
 private:
-    Nodo_Pila* cima;
+    pNodo cima;
 public:
-    Pila();
+    Pila();                          
     ~Pila();
-    bool esVacia();
-    void apilar(Pedido p);
-    void desapilar(Pedido &valorCima);
-    int contarElementos();
-    void mostrarCaja(string nombreZona);
-    void retirarPedido(string nombrePedido);
+    Pila(const Pila &) = delete;
+    Pila &operator=(const Pila &) = delete;
+
+    void apilar(Pedido p);           
+    void desapilar();                
+    Pedido valorCima();              
+    bool esVacia();                
 };
 
+int calcularSecuenciaAleatoria(int x);
 string generarIdPedido(int contador);
 Pedido generarPedidoAleatorio(int &contadorGlobal);
 
-void mostrarResumenCajas(
-    Pila &cajaNorte,
-    Pila &cajaSur,
-    Pila &cajaEste,
-    Pila &cajaOeste,
-    int cajasEnviadas[],
-    int totalPedidosRetirados
-    );
+int contarCola(Cola &c);
+int contarCaja(Pila &caja);
+void mostrarCola(Cola &c, const string &nombreCola);
+void mostrarCaja(Pila &caja);
+bool retirarPedido(Pila &caja, const string &idPedido, Cola &finalizados);
 
-void ejecutarPasos(
-    Cola &recibidos,
-    Cola &preparacionEspecial,
-    Cola &cocina,
-    Cola &expedicionNorte,
-    Cola &expedicionSur,
-    Cola &expedicionEste,
-    Cola &expedicionOeste,
-    Pila &cajaNorte,
-    Pila &cajaSur,
-    Pila &cajaEste,
-    Pila &cajaOeste,
-    int cajasEnviadas[]
-);
+void mostrarResumenCajas(Pila &cajaNorte, Pila &cajaSur, Pila &cajaEste, Pila &cajaOeste, int cajasEnviadas[], int totalPedidosRetirados);
+
+void procesarCaja(Pila &caja, Cola &expedicionZona, int cajasEnviadas[], Cola &finalizados, int zona);
+
+void ejecutarPasos(Cola &recibidos, Cola &preparacionEspecial, Cola &cocina, Cola &expedicionNorte, Cola &expedicionSur, Cola &expedicionEste, Cola &expedicionOeste, Pila &cajaNorte, Pila &cajaSur, Pila &cajaEste, Pila &cajaOeste, int cajasEnviadas[], Cola &finalizados);
 
 #endif // PIZZERIA3_H

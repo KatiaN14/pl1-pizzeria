@@ -61,45 +61,6 @@ int main()
                 ejecutarPasos(recibidos, preparacionEspecial, cocina, expedicionNorte, expedicionSur, expedicionEste, expedicionOeste);
                 break;
             case 3:
-                cout << "Qué cola quiere ver?" << endl;
-                cout << "Opción" << setw(15) << "Cola" << endl;
-                cout << setw(3) << "1" << "\t" << "Recibidos" << endl;
-                cout << setw(3) << "2" << "\t" << "Preparación especial" << endl;
-                cout << setw(3) << "3" << "\t" << "Cocina" << endl;
-                cout << setw(3) << "4" << "\t" << "Expedición Norte" << endl;
-                cout << setw(3) << "5" << "\t" << "Expedición Sur" << endl;
-                cout << setw(3) << "6" << "\t" << "Expedición Este" << endl;
-                cout << setw(3) << "7" << "\t" << "Expedición Oeste" << endl;
-                cout << setw(3) << "8" << "\t" << "Todas las colas" << endl;
-                cout << "Opción: " << endl;
-                if(!(cin >> opcion2)) {
-                    cin.clear();
-                    cin.ignore(1000,'\n');
-                    opcion2 = -1;
-                }
-                switch(opcion2) {
-                    case 1:
-                        recibidos.mostrarCola("Recibidos");
-                        break;
-                    case 2:
-                        preparacionEspecial.mostrarCola("Preparación especial");
-                        break;
-                    case 3:
-                        cocina.mostrarCola("Cocina");
-                        break;
-                    case 4:
-                        expedicionNorte.mostrarCola("Expedición Norte");
-                        break;
-                    case 5:
-                        expedicionSur.mostrarCola("Expedición Sur");
-                        break;
-                    case 6:
-                        expedicionEste.mostrarCola("Expedición Este");
-                        break;
-                    case 7:
-                        expedicionOeste.mostrarCola("Expedición Oeste");
-                        break;
-                    case 8:
                         recibidos.mostrarCola("Recibidos");
                         preparacionEspecial.mostrarCola("Preparación especial");
                         cocina.mostrarCola("Cocina");
@@ -107,10 +68,6 @@ int main()
                         expedicionSur.mostrarCola("Expedición Sur");
                         expedicionEste.mostrarCola("Expedición Este");
                         expedicionOeste.mostrarCola("Expedición Oeste");
-                        break;
-                    default:
-                        cout << "Entrada inválida, solo se aceptan números entre 1 y 7" << endl;
-                }
                 break;
             case 0:
                 cout << "Hasta pronto!" << endl;
