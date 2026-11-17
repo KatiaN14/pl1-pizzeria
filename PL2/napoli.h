@@ -40,22 +40,28 @@ private:
     pVenta actual;
     pVenta final;
 public:
-    Lista();
+    Lista() {cabeza=actual=final=NULL;};
     ~Lista();
     //Lista(const Lista &) = delete;
     //Lista &operator=(const Lista &) = delete;
-    void insertar(Venta v); //puede que aquí haga falta otro parámetro, la posición de inserción 
+    void insertar(Venta v, char c); //puede que aquí haga falta otro parámetro, la posición de inserción 
     void eliminar_venta(Venta v); //o se elimina por posición?
     bool esVacia();
+    bool esActual();
     Venta getCabeza();
     Venta getActual();
     Venta getFinal();
+    void recorrerLista();
+    void esCabeza();
+    void esFinal();
+    void esSiguiente();
+    void esAnterior();
 };
 
 struct Centro {
     int id_centro; //único, tres cifras
     string localidad; //Móstoles, Alcalá, Leganés, Fuenlabrada, Getafe, Alcorcón. Torrejón, Parla, Alcobendas, Coslada, Pozuelo, Rivas, Valdemoro, Majadahonda, Aranjuez, Arganda, Boadilla, Pinto, Colmenar, Tres Cantos
-    Lista lista_ventas; //lista enlazada
+    Lista *lista_ventas; //lista enlazada, ES UN PUNTERO PARA QUE FUNCIONE TODO BIEN
 };
 
 //cambiar, porque tiene que ser un nodo de árbol, no lista
@@ -72,7 +78,30 @@ public:
 };
 
 class Arbol {
-    
+private:
+    NodoC *raiz;
+    NodoC *actual;
+    int contador;
+    int altura;
+public:
+    Arbol() : raiz(NULL), actual(NULL) {}
+    ~Arbol();
+    void Insertar(Centro c); //insertar en arbol ordenado
+    void Borrar(Centro c);
+    bool Buscar (Centro c);
+    bool esVacio(NodoC *r); //comprobar si el arbol esta vacio, DUDA: por que necesita parametros? no puedo simplemente mirar si la raiz apunta a null?
+    bool esHoja(NodoC *r); //comprobar si es un nodo hoja
+    const int NumeroNodos(); //DUDA: por que es constante?
+    const int AlturaArbol();
+    void Raiz();
+    // Aplicar una funci�n a cada elemento del �rbol:
+    void InOrden(void (*func)(int&), NodoC *nodo=NULL, bool r=true);
+    void PreOrden(void (*func)(int&), NodoC *nodo=NULL, bool r=true);
+    void PostOrden(void (*func)(int&), NodoC *nodo=NULL, bool r=true);
+private: //entender esos tres...
+    void Podar(NodoC* &);
+    void auxContador(NodoC*);
+    void auxAltura(NodoC*, int);
 };
 
 int calcularSecuenciaAleatoria(int x);
